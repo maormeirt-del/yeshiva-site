@@ -1,0 +1,7 @@
+.vercel
+node_modules
+.DS_Store
+_video/
+_tmp_flyer/
+*.log
+Thumbs.db

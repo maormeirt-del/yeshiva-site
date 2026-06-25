@@ -1,0 +1,37 @@
+/* ספריית פונטים — self-host woff2 · OFL · font-display:swap (מונע FOIT ב-RTL) */
+
+/* Heebo — גוף וטקסט */
+@font-face{font-family:'Heebo';src:url('heebo-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Heebo';src:url('heebo-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Heebo';src:url('heebo-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Heebo';src:url('heebo-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap;}
+@font-face{font-family:'Heebo';src:url('heebo-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap;}
+
+/* Rubik — כותרות תצוגה */
+@font-face{font-family:'Rubik';src:url('rubik-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Rubik';src:url('rubik-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Rubik';src:url('rubik-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Rubik';src:url('rubik-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap;}
+
+/* Frank Ruhl Libre — serif תורני לציטוטים ולמבטא */
+@font-face{font-family:'Frank Ruhl Libre';src:url('frank-ruhl-libre-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Frank Ruhl Libre';src:url('frank-ruhl-libre-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Frank Ruhl Libre';src:url('frank-ruhl-libre-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap;}
+
+/* Assistant — גיבוי הומניסטי */
+@font-face{font-family:'Assistant';src:url('assistant-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Assistant';src:url('assistant-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'Assistant';src:url('assistant-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+
+/* Suez One — serif תצוגה כבד · כותרות עוצמתיות אדיטוריאליות */
+@font-face{font-family:'Suez One';src:url('suez-one-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+
+/* Secular One — sans תצוגה עבה לאימפקט (מספרים / אקצנט) */
+@font-face{font-family:'Secular One';src:url('secular-one-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+
+/* David Libre — serif תורני קריא (כותרות-משנה / מבטא) */
+@font-face{font-family:'David Libre';src:url('david-libre-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'David Libre';src:url('david-libre-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+
+/* Bellefair — serif אלגנטי לאקצנט / wordmark / מספרים */
+@font-face{font-family:'Bellefair';src:url('bellefair-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
