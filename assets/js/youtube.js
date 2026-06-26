@@ -134,8 +134,24 @@
     });
   }
 
+  // אריח-תמונה: פריים אמיתי מהסרטון (hqdefault/hq1/hq2/hq3). לחיצה פותחת את הסרטון.
+  function photoTile(v, frame) {
+    var a = document.createElement('a');
+    a.className = 'photo-tile';
+    a.href = 'https://www.youtube.com/watch?v=' + v.id;
+    a.setAttribute('role', 'button');
+    a.setAttribute('aria-label', 'רגע מהישיבה — ' + (v.title || ''));
+    a.dataset.vid = v.id;
+    a.innerHTML =
+      '<img loading="lazy" src="https://i.ytimg.com/vi/' + v.id + '/' + frame + '.jpg" alt="' + esc(v.title) + '"' +
+      ' onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg\'">' +
+      '<span class="ph-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>';
+    a.addEventListener('click', onPlay);
+    return a;
+  }
+
   function fillContainer(el) {
-    var type = el.dataset.gallery; // 'shorts' | 'lessons'
+    var type = el.dataset.gallery; // 'shorts' | 'lessons' | 'photos'
     var limit = parseInt(el.dataset.limit || '6', 10);
     var skip = parseInt(el.dataset.skip || '0', 10);
     var filter = el.dataset.filter || ''; // מחרוזת לסינון לפי כותרת
@@ -144,6 +160,16 @@
       el.innerHTML = '';
       if (filter) {
         vids = vids.filter(function (v) { return (v.title || '').indexOf(filter) !== -1; });
+      }
+      if (type === 'photos') {
+        var frames = (el.dataset.frames || 'hqdefault,hq1,hq2,hq3').split(',');
+        var pool = vids.slice(skip, skip + limit);
+        if (!pool.length) { el.innerHTML = '<div class="yt-loading">התמונות יתעדכנו בקרוב ישירות מהערוץ.</div>'; return; }
+        // שזירה לפי פריים — כדי שלא יופיעו 4 תמונות דומות זו לצד זו
+        frames.forEach(function (fr) {
+          pool.forEach(function (v) { el.appendChild(photoTile(v, fr)); });
+        });
+        return;
       }
       var slice = vids.slice(skip, skip + limit);
       if (!slice.length) {
