@@ -42,9 +42,54 @@
     return el;
   }
 
+  /* --- מצב מובלט לדף הבית: מאמר ראשי גדול + כרטיסים קטנים לצידו --- */
+  function featMain(a) {
+    var el = document.createElement('article');
+    el.className = 'feat-main reveal';
+    var c = cover(a);
+    el.innerHTML =
+      (c ? '<img loading="lazy" src="' + c + '" alt="">' : '') +
+      '<div class="fm-body">' +
+        (a.parasha ? '<span class="parasha-tag">' + esc(a.parasha) + '</span>' : '') +
+        '<h3>' + esc(a.title) + '</h3>' +
+        (a.subtitle ? '<div class="sub">' + esc(a.subtitle) + '</div>' : '') +
+        '<p class="ex">' + esc(a.excerpt || '') + '</p>' +
+        '<div class="meta"><span>' + fmt(a.date) + '</span>' + (a.read_min ? '<span>' + a.read_min + ' דק׳ קריאה</span>' : '') + '</div>' +
+        '<a class="read stretch" href="article.html?slug=' + encodeURIComponent(a.slug) + '">לקריאת המאמר <span class="arr">←</span></a>' +
+      '</div>';
+    return el;
+  }
+  function featCard(a, delay) {
+    var el = document.createElement('article');
+    el.className = 'feat-card reveal' + (delay ? ' d' + delay : '');
+    var c = cover(a);
+    el.innerHTML =
+      '<div class="thumb">' + (c ? '<img loading="lazy" src="' + c + '" alt="">' : '') + '</div>' +
+      '<div class="fc-body">' +
+        (a.parasha ? '<div class="parasha">' + esc(a.parasha) + '</div>' : '') +
+        '<h4>' + esc(a.title) + '</h4>' +
+        '<div class="meta">' + fmt(a.date) + (a.read_min ? ' · ' + a.read_min + ' דק׳' : '') + '</div>' +
+      '</div>' +
+      '<a class="stretch" href="article.html?slug=' + encodeURIComponent(a.slug) + '" aria-label="' + esc(a.title) + '"></a>';
+    return el;
+  }
+  function renderFeatured(el, items) {
+    el.innerHTML = '';
+    if (!items.length) { el.innerHTML = '<p class="lead" style="color:#d6e4f3">מאמרים יפורסמו כאן בקרוב, בעזרת ה׳.</p>'; return; }
+    el.appendChild(featMain(items[0]));
+    if (items.length > 1) {
+      var side = document.createElement('div');
+      side.className = 'feat-side';
+      items.slice(1).forEach(function (a, i) { side.appendChild(featCard(a, i + 1)); });
+      el.appendChild(side);
+    }
+    revealAll(el);
+  }
+
   function renderList(el, items) {
     var limit = parseInt(el.dataset.limit || '0', 10);
     var list = limit ? items.slice(0, limit) : items;
+    if (el.dataset.featured === '1') { renderFeatured(el, list); return; }
     el.innerHTML = '';
     if (!list.length) { el.innerHTML = '<p class="lead">מאמרים יפורסמו כאן בקרוב, בעזרת ה׳.</p>'; return; }
     list.forEach(function (a) { el.appendChild(card(a)); });

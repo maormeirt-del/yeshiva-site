@@ -365,6 +365,56 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:400;colo
 .article-card .read{margin-top:1.1rem;font-family:var(--font-ui);font-weight:700;color:var(--blue);display:inline-flex;align-items:center;gap:.4em}
 .article-card a.stretch::after{content:"";position:absolute;inset:0}
 
+/* --- בלוג מאמרים בדף הבית (סקשן נייבי עוצמתי) --- */
+.home-articles{position:relative;overflow:hidden}
+.home-articles::before{
+  content:"״";position:absolute;top:-.12em;inset-inline-start:2%;font-family:var(--font-serif);
+  font-size:clamp(11rem,24vw,20rem);line-height:1;color:rgba(255,255,255,.05);pointer-events:none;
+}
+.articles-feature{display:grid;grid-template-columns:1.35fr 1fr;gap:1.6rem;align-items:stretch}
+.feat-main{
+  position:relative;border-radius:var(--radius);overflow:hidden;min-height:420px;display:flex;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);transition:transform .35s var(--ease),box-shadow .35s;
+}
+.feat-main:hover{transform:translateY(-6px);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.feat-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.feat-main:hover img{transform:scale(1.05)}
+.feat-main::after{content:"";position:absolute;inset:0;background:linear-gradient(10deg,rgba(10,26,45,.94) 22%,rgba(10,26,45,.45) 55%,rgba(10,26,45,.12))}
+.feat-main .fm-body{position:relative;z-index:2;margin-top:auto;padding:clamp(1.5rem,3.5vw,2.4rem);width:100%}
+.feat-main .parasha-tag{
+  display:inline-block;background:var(--orange);color:var(--orange-ink);font-family:var(--font-ui);
+  font-weight:700;font-size:.82rem;padding:.28em 1em;border-radius:999px;margin-bottom:1rem;
+  box-shadow:0 8px 20px rgba(240,138,30,.4);
+}
+.feat-main h3{font-family:var(--font-impact);font-weight:400;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.25;color:#fff;margin-bottom:.6rem}
+.feat-main .sub{font-family:var(--font-serif);font-style:italic;color:#ffce99;font-size:1.08rem;margin-bottom:.8rem}
+.feat-main p.ex{color:#d6e4f3;font-size:1rem;line-height:1.7;max-width:56ch;margin-bottom:1.1rem}
+.feat-main .meta{display:flex;gap:1.2em;color:#9db8d4;font-family:var(--font-ui);font-size:.85rem;margin-bottom:.2rem}
+.feat-main .read{font-family:var(--font-ui);font-weight:700;color:#fff;display:inline-flex;align-items:center;gap:.45em}
+.feat-main .read .arr{color:var(--orange)}
+.feat-main a.stretch::after{content:"";position:absolute;inset:0;z-index:3}
+
+.feat-side{display:flex;flex-direction:column;gap:1.6rem}
+.feat-card{
+  position:relative;display:flex;gap:1.1rem;align-items:stretch;flex:1;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);
+  overflow:hidden;backdrop-filter:blur(4px);
+  transition:transform .3s var(--ease),background .3s,border-color .3s;
+}
+.feat-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.1);border-color:rgba(245,138,31,.5)}
+.feat-card .thumb{width:36%;min-width:130px;flex:none;position:relative;overflow:hidden}
+.feat-card .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.feat-card:hover .thumb img{transform:scale(1.06)}
+.feat-card .fc-body{padding:1.15rem 1.2rem 1.15rem 1rem;display:flex;flex-direction:column;justify-content:center}
+.feat-card .parasha{color:#ffce99;font-family:var(--font-ui);font-weight:600;font-size:.78rem;margin-bottom:.35rem}
+.feat-card h4{font-family:var(--font-impact);font-weight:400;font-size:1.12rem;line-height:1.35;color:#fff;margin-bottom:.4rem}
+.feat-card .meta{color:#9db8d4;font-family:var(--font-ui);font-size:.8rem}
+.feat-card a.stretch::after{content:"";position:absolute;inset:0}
+@media(max-width:900px){
+  .articles-feature{grid-template-columns:1fr}
+  .feat-main{min-height:340px}
+}
+
 /* --- דף מאמר בודד --- */
 .article-hero{
   background:linear-gradient(165deg,var(--blue-deep),var(--blue-darker));color:#fff;
