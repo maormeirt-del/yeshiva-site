@@ -26,6 +26,7 @@
         phone: (form.elements.phone && form.elements.phone.value || '').trim(),
         email: (form.elements.email && form.elements.email.value || '').trim(),
         message: (form.elements.message && form.elements.message.value || '').trim(),
+        marketing_consent: !!(form.elements.marketing_consent && form.elements.marketing_consent.checked),
         source: form.dataset.lead || 'form'
       };
       if (!data.name || (!data.phone && !data.email)) {

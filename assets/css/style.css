@@ -366,6 +366,15 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:400;colo
   box-shadow:0 0 0 4px rgba(46,134,212,.14);
 }
 .lead-form .btn{justify-self:center;min-width:220px}
+.lead-form .lf-consent{
+  display:flex;align-items:flex-start;gap:.65rem;cursor:pointer;
+  font-family:var(--font-sans);font-weight:400;font-size:.92rem;color:var(--muted);line-height:1.55;
+}
+.lead-form .lf-consent input{
+  width:1.15rem;height:1.15rem;flex:none;margin-top:.22rem;
+  accent-color:var(--orange);cursor:pointer;
+}
+.lead-form .lf-consent:hover span{color:var(--ink)}
 .lead-form [data-lead-msg]{
   text-align:center;font-family:var(--font-ui);font-weight:600;margin:0;
 }

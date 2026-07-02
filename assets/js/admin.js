@@ -179,7 +179,7 @@
   /* ---------- Leads ---------- */
   function loadLeads() {
     sb.from('leads')
-      .select('id,name,phone,email,message,source,handled,created_at')
+      .select('id,name,phone,email,message,source,handled,created_at,marketing_consent')
       .order('created_at', { ascending: false })
       .then(function (res) {
         var box = $('leadsList');
@@ -193,6 +193,7 @@
           var contact = [r.phone, r.email].filter(Boolean).join(' · ');
           el.innerHTML =
             '<div><span class="t">' + esc(r.name || 'ללא שם') + '</span>' +
+            ' <span class="pill ' + (r.marketing_consent ? 'pub">✓ אישר דיוור' : 'dr">ללא דיוור') + '</span>' +
             ' <span class="d">' + esc(contact) + '</span>' +
             (r.message ? '<div class="d">“' + esc(r.message) + '”</div>' : '') +
             '<div class="d">' + fmtDate(r.created_at) + ' · מקור: ' + esc(r.source || '-') + '</div></div>' +
