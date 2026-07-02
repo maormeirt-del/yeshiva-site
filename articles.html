@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>שיעורי ראש הישיבה | ישיבה תיכונית קריית אתא</title>
-<meta name="description" content="שיחות ושיעורי ראש הישיבה הרב יונתן בלסן — פרשת שבוע, מחשבה ואמונה. נשאב ישירות מערוץ היוטיוב של הישיבה.">
+<title>מאמרים תורניים | ישיבה תיכונית קריית אתא</title>
+<meta name="description" content="מאמרים תורניים מבית המדרש של ישיבה תיכונית קריית אתא — מתוך שיחות ראש הישיבה הרב יהונתן בלסן על הפרשה, המועדים ועבודת ה'.">
 <meta name="theme-color" content="#1A4E88">
-<meta property="og:title" content="שיעורי ראש הישיבה | ישיבה תיכונית קריית אתא">
+<meta property="og:title" content="מאמרים תורניים | ישיבה תיכונית קריית אתא">
 <meta property="og:image" content="assets/img/logo.png">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preload" href="assets/fonts/suez-one-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,8 @@
       <ul class="nav-links">
         <li><a href="index.html#about">אודות</a></li>
         <li><a href="index.html#pillars">החזון</a></li>
-        <li><a href="index.html#tracks">מסלולים</a></li>
-        <li><a href="shiurim.html" class="active">שיעורי הרב</a></li>
-        <li><a href="articles.html">מאמרים</a></li>
+        <li><a href="shiurim.html">שיעורי הרב</a></li>
+        <li><a href="articles.html" class="active">מאמרים</a></li>
         <li><a href="updates.html">מה חדש</a></li>
         <li><a href="index.html#contact">צור קשר</a></li>
       </ul>
@@ -53,28 +52,16 @@
 <main>
   <section class="page-hero">
     <div class="container">
-      <p class="breadcrumb"><a href="index.html">דף הבית</a> · שיעורי הרב</p>
+      <p class="breadcrumb"><a href="index.html">דף הבית</a> · מאמרים</p>
       <p class="kicker" style="justify-content:center">מבית המדרש</p>
-      <h1>שיעורי ראש הישיבה</h1>
-      <p>שיחות ראש הישיבה על פרשת השבוע, מחשבה ואמונה — אוצר חי שמתעדכן ישירות מערוץ היוטיוב של הישיבה.</p>
+      <h1>מאמרים תורניים</h1>
+      <p>מתוך שיחות ראש הישיבה, הרב יהונתן בלסן — על הפרשה, המועדים ועבודת ה'. לקרוא, להתחזק, ולקחת משהו הביתה.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
-        <h2 class="h-sec" style="margin:0">שיחות ראש הישיבה</h2>
-        <a class="link-more" href="https://www.youtube.com/@%D7%99%D7%A9%D7%99%D7%91%D7%AA%D7%AA%D7%99%D7%9B%D7%95%D7%A0%D7%99%D7%AA%D7%A7%D7%A8%D7%99%D7%AA%D7%90%D7%AA%D7%90%D7%99%D7%AA%D7%A7%D7%90" target="_blank" rel="noopener">לערוץ המלא <span class="arr">←</span></a>
-      </div>
-      <div class="lesson-grid" data-gallery="lessons" data-filter="ראש הישיבה" data-limit="30" aria-label="שיעורי ראש הישיבה"></div>
-    </div>
-  </section>
-
-  <section class="section section--alt">
-    <div class="container">
-      <h2 class="h-sec" style="margin-bottom:2rem">עוד מבית המדרש</h2>
-      <p class="lead" style="margin-bottom:2rem">שיחות אורחים, חידות הלכתיות ורגעים מהפעילות.</p>
-      <div class="lesson-grid" data-gallery="lessons" data-limit="30" aria-label="עוד סרטונים מהערוץ"></div>
+      <div class="articles-grid" data-articles></div>
     </div>
   </section>
 </main>
@@ -83,12 +70,14 @@
   <div class="container">
     <div class="footer-bottom" style="border:0">
       <span>© <span id="year">2026</span> ישיבה תיכונית קריית אתא — כל הזכויות שמורות.</span>
-      <span class="links"><a href="index.html">דף הבית</a><a href="updates.html">מה חדש</a></span>
+      <span class="links"><a href="index.html">דף הבית</a><a href="shiurim.html">שיעורי הרב</a><a href="updates.html">מה חדש</a></span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/youtube.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="assets/js/supabase-config.js" defer></script>
+<script src="assets/js/articles.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/anim.js" defer></script>
 <script src="assets/js/widgets.js" defer></script>

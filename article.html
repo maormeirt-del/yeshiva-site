@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>מה חדש בישיבה | סיכומים שבועיים ועדכונים</title>
-<meta name="description" content="סיכומים שבועיים, אירועים ועדכונים מישיבה תיכונית קריית אתא — מה קורה אצלנו בבית המדרש ובחיי הישיבה.">
+<title>מאמר | ישיבה תיכונית קריית אתא</title>
+<meta name="description" content="מאמר תורני מבית המדרש של ישיבה תיכונית קריית אתא.">
 <meta name="theme-color" content="#1A4E88">
-<meta property="og:title" content="מה חדש בישיבה | ישיבה תיכונית קריית אתא">
 <meta property="og:image" content="assets/img/logo.png">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preload" href="assets/fonts/suez-one-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -15,15 +14,6 @@
 <noscript><style>.loader{display:none!important}.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
-
-<div class="loader" id="loader" role="status" aria-label="טוען">
-  <button class="loader-skip" type="button">דלג</button>
-  <div class="loader-inner">
-    <img class="loader-logo" src="assets/img/logo.png" alt="">
-    <div class="loader-tag">תורה · ערכים · מצוינות</div>
-    <div class="loader-bar"><span></span></div>
-  </div>
-</div>
 
 <header class="site-header">
   <div class="container nav">
@@ -35,10 +25,9 @@
       <ul class="nav-links">
         <li><a href="index.html#about">אודות</a></li>
         <li><a href="index.html#pillars">החזון</a></li>
-        <li><a href="index.html#tracks">מסלולים</a></li>
         <li><a href="shiurim.html">שיעורי הרב</a></li>
-        <li><a href="articles.html">מאמרים</a></li>
-        <li><a href="updates.html" class="active">מה חדש</a></li>
+        <li><a href="articles.html" class="active">מאמרים</a></li>
+        <li><a href="updates.html">מה חדש</a></li>
         <li><a href="index.html#contact">צור קשר</a></li>
       </ul>
     </nav>
@@ -50,20 +39,9 @@
   </div>
 </header>
 
-<main>
+<main data-article-single>
   <section class="page-hero">
-    <div class="container">
-      <p class="breadcrumb"><a href="index.html">דף הבית</a> · מה חדש</p>
-      <p class="kicker" style="justify-content:center">סיכום שבועי</p>
-      <h1>מה חדש בישיבה</h1>
-      <p>סיכומים שבועיים, אירועים ורגעים מהחיים אצלנו — כדי שתהיו תמיד שותפים ומעודכנים.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="news-grid" data-updates data-full="0"></div>
-    </div>
+    <div class="container"><h1>טוען מאמר…</h1></div>
   </section>
 </main>
 
@@ -71,15 +49,14 @@
   <div class="container">
     <div class="footer-bottom" style="border:0">
       <span>© <span id="year">2026</span> ישיבה תיכונית קריית אתא — כל הזכויות שמורות.</span>
-      <span class="links"><a href="index.html">דף הבית</a><a href="shiurim.html">שיעורי הרב</a><a href="articles.html">מאמרים</a></span>
+      <span class="links"><a href="index.html">דף הבית</a><a href="articles.html">מאמרים</a></span>
     </div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="assets/js/supabase-config.js" defer></script>
-<script src="assets/js/youtube.js" defer></script>
-<script src="assets/js/updates.js" defer></script>
+<script src="assets/js/articles.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/anim.js" defer></script>
 <script src="assets/js/widgets.js" defer></script>
