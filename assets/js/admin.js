@@ -44,6 +44,7 @@
     show($('panel'), true);
     $('who').textContent = user.email;
     loadUpdates();
+    loadArticles();
     loadLeads();
   }
 
@@ -176,6 +177,136 @@
       });
   }
 
+  /* ---------- Articles CRUD ---------- */
+  // בלוקים ← → טקסט פשוט: '## ' כותרת, '> ' ציטוט, 'מקורות:' מקורות, אחרת פסקה
+  function blocksToArticleText(body) {
+    return (Array.isArray(body) ? body : []).map(function (b) {
+      switch (b.type) {
+        case 'h2':     return '## ' + b.text;
+        case 'quote':  return '> ' + b.text;
+        case 'source': return 'מקורות: ' + b.text;
+        default:       return b.text;
+      }
+    }).join('\n\n');
+  }
+  function articleTextToBlocks(text) {
+    return (text || '').split(/\n{2,}/).map(function (chunk) {
+      var t = chunk.replace(/\n/g, ' ').trim();
+      if (!t) return null;
+      if (t.indexOf('## ') === 0)      return { type: 'h2',     text: t.slice(3).trim() };
+      if (t.charAt(0) === '>')          return { type: 'quote',  text: t.replace(/^>+\s*/, '') };
+      if (/^מקורו?ת\s*:/.test(t))      return { type: 'source', text: t.replace(/^מקורו?ת\s*:\s*/, '') };
+      return { type: 'p', text: t };
+    }).filter(Boolean);
+  }
+  function autoSlug() {
+    return 'maamar-' + Date.now().toString(36);
+  }
+
+  function clearArticleEditor() {
+    ['a-id','a-title','a-subtitle','a-parasha','a-video','a-excerpt','a-body','a-slug'].forEach(function (id) { $(id).value = ''; });
+    $('a-date').value = new Date().toISOString().slice(0, 10);
+    $('a-readmin').value = '';
+    $('a-order').value = '0';
+    $('a-pub').checked = true;
+    $('artEditorTitle').textContent = 'מאמר חדש';
+    $('artPreviewLink').classList.add('hidden');
+    setMsg($('artMsg'), '', true);
+  }
+
+  function fillArticleEditor(row) {
+    $('a-id').value = row.id;
+    $('a-title').value = row.title || '';
+    $('a-subtitle').value = row.subtitle || '';
+    $('a-parasha').value = row.parasha || '';
+    $('a-date').value = (row.date || '').slice(0, 10);
+    $('a-video').value = row.video_id || '';
+    $('a-readmin').value = row.read_min != null ? row.read_min : '';
+    $('a-excerpt').value = row.excerpt || '';
+    $('a-body').value = blocksToArticleText(row.body);
+    $('a-slug').value = row.slug || '';
+    $('a-order').value = row.sort_order != null ? row.sort_order : 0;
+    $('a-pub').checked = !!row.published;
+    $('artEditorTitle').textContent = 'עריכת מאמר';
+    var pl = $('artPreviewLink');
+    pl.href = 'article.html?slug=' + encodeURIComponent(row.slug);
+    pl.classList.remove('hidden');
+    setMsg($('artMsg'), '', true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function saveArticle() {
+    var title = $('a-title').value.trim();
+    if (!title) { setMsg($('artMsg'), 'צריך כותרת.', false); return; }
+    var body = articleTextToBlocks($('a-body').value);
+    if (!body.length) { setMsg($('artMsg'), 'גוף המאמר ריק.', false); return; }
+    var payload = {
+      title: title,
+      subtitle: $('a-subtitle').value.trim() || null,
+      parasha: $('a-parasha').value.trim() || null,
+      date: $('a-date').value || new Date().toISOString().slice(0, 10),
+      video_id: $('a-video').value.trim() || null,
+      read_min: parseInt($('a-readmin').value, 10) || null,
+      excerpt: $('a-excerpt').value.trim() || null,
+      body: body,
+      slug: $('a-slug').value.trim() || autoSlug(),
+      sort_order: parseInt($('a-order').value, 10) || 0,
+      published: $('a-pub').checked
+    };
+    var id = $('a-id').value;
+    $('artSaveBtn').disabled = true;
+    setMsg($('artMsg'), 'שומר…', true);
+
+    var q = id
+      ? sb.from('articles').update(payload).eq('id', id)
+      : sb.from('articles').insert(payload);
+
+    q.then(function (res) {
+      $('artSaveBtn').disabled = false;
+      if (res.error) { setMsg($('artMsg'), 'שמירה נכשלה: ' + res.error.message, false); return; }
+      setMsg($('artMsg'), 'נשמר בהצלחה ✓', true);
+      clearArticleEditor();
+      loadArticles();
+    });
+  }
+
+  function delArticle(id, title) {
+    if (!confirm('למחוק את המאמר "' + title + '"? הפעולה בלתי הפיכה.')) return;
+    sb.from('articles').delete().eq('id', id).then(function (res) {
+      if (res.error) { alert('מחיקה נכשלה: ' + res.error.message); return; }
+      loadArticles();
+    });
+  }
+
+  function loadArticles() {
+    sb.from('articles')
+      .select('id,slug,title,subtitle,parasha,date,video_id,read_min,excerpt,body,sort_order,published')
+      .order('sort_order', { ascending: false })
+      .order('date', { ascending: false })
+      .then(function (res) {
+        var box = $('articlesList');
+        if (res.error) { box.innerHTML = '<p class="msg err">שגיאה בטעינה: ' + esc(res.error.message) + '</p>'; return; }
+        var rows = res.data || [];
+        if (!rows.length) { box.innerHTML = '<p class="muted">אין עדיין מאמרים. הוסיפו את הראשון למעלה.</p>'; return; }
+        box.innerHTML = '';
+        rows.forEach(function (r) {
+          var el = document.createElement('div');
+          el.className = 'item';
+          el.innerHTML =
+            '<div><span class="t">' + esc(r.title) + '</span>' +
+            ' <span class="pill ' + (r.published ? 'pub">מפורסם' : 'dr">טיוטה') + '</span>' +
+            '<div class="d">' + esc(r.parasha || '') + ' · ' + fmtDate(r.date) + (r.read_min ? ' · ' + r.read_min + ' דק׳' : '') + '</div></div>' +
+            '<div style="display:flex;gap:.4rem;flex-wrap:wrap">' +
+            '<a class="btn btn-ghost" target="_blank" rel="noopener" href="article.html?slug=' + encodeURIComponent(r.slug) + '">צפייה</a>' +
+            '<button class="btn btn-ghost" data-edit>עריכה</button>' +
+            '<button class="btn btn-danger" data-del>מחיקה</button></div>';
+          el.querySelector('[data-edit]').addEventListener('click', function () { fillArticleEditor(r); });
+          el.querySelector('[data-del]').addEventListener('click', function () { delArticle(r.id, r.title); });
+          box.appendChild(el);
+        });
+      });
+  }
+
   /* ---------- Leads ---------- */
   function loadLeads() {
     sb.from('leads')
@@ -211,6 +342,7 @@
         t.classList.add('on');
         var name = t.dataset.tab;
         show($('tab-updates'), name === 'updates');
+        show($('tab-articles'), name === 'articles');
         show($('tab-leads'), name === 'leads');
       });
     });
@@ -230,7 +362,10 @@
       $('pwBtn').addEventListener('click', changePassword);
       $('saveBtn').addEventListener('click', save);
       $('newBtn').addEventListener('click', clearEditor);
+      $('artSaveBtn').addEventListener('click', saveArticle);
+      $('artNewBtn').addEventListener('click', clearArticleEditor);
       clearEditor();
+      clearArticleEditor();
       initTabs();
       refreshSession();
     });

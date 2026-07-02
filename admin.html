@@ -78,6 +78,7 @@
 
     <div class="tabs">
       <button class="tab on" data-tab="updates">עדכונים</button>
+      <button class="tab" data-tab="articles">מאמרים</button>
       <button class="tab" data-tab="leads">פניות והרשמות</button>
     </div>
 
@@ -110,6 +111,49 @@
       </div>
       <h2>העדכונים באתר</h2>
       <div id="updatesList"><p class="muted">טוען…</p></div>
+    </section>
+
+    <!-- מאמרים -->
+    <section id="tab-articles" class="hidden">
+      <div class="card" style="margin-bottom:1.2rem">
+        <h2 id="artEditorTitle">מאמר חדש</h2>
+        <div id="artMsg" class="msg"></div>
+        <input type="hidden" id="a-id">
+        <div class="row">
+          <div><label>כותרת המאמר *</label><input id="a-title" placeholder="אבנים שחקו מים: הסוד של…"></div>
+          <div><label>כותרת משנה</label><input id="a-subtitle" placeholder="שאלה או ציטוט שמושך לקרוא"></div>
+        </div>
+        <div class="row">
+          <div><label>פרשה / מועד</label><input id="a-parasha" placeholder="בהר בחוקותי"></div>
+          <div><label>תאריך</label><input id="a-date" type="date"></div>
+        </div>
+        <div class="row">
+          <div><label>מזהה סרטון יוטיוב (השיחה המקורית)</label><input id="a-video" placeholder="2vLpo1LPVns"></div>
+          <div><label>זמן קריאה (דקות)</label><input id="a-readmin" type="number" min="1" placeholder="5"></div>
+        </div>
+        <label>תקציר (מופיע בכרטיס ברשימה)</label>
+        <textarea id="a-excerpt" rows="2" placeholder="שני משפטים שגורמים לרצות לקרוא…"></textarea>
+        <label>גוף המאמר</label>
+        <p class="muted" style="margin:.1rem 0 .4rem;font-size:.85rem">
+          פסקה רגילה = סתם טקסט (שורה ריקה בין פסקאות) ·
+          <b>## כותרת ביניים</b> ·
+          <b>&gt; ציטוט מודגש</b> ·
+          <b>מקורות: ויקרא יט, ב · אבות ד, ב</b> (בסוף המאמר)
+        </p>
+        <textarea id="a-body" rows="16" placeholder="יש רגעים בחיים שבהם הכל נראה אבוד…&#10;&#10;## כותרת ביניים&#10;&#10;עוד פסקה…&#10;&#10;> ציטוט שרוצים להבליט&#10;&#10;מקורות: ויקרא כו, ג · אבות ג, ה"></textarea>
+        <div class="row" style="align-items:end">
+          <div><label>כתובת באתר (slug, באנגלית) — נוצר לבד אם ריק</label><input id="a-slug" dir="ltr" placeholder="avanim-shachaku-mayim"></div>
+          <div><label>סדר תצוגה (גבוה = ראשון)</label><input id="a-order" type="number" value="0"></div>
+        </div>
+        <label style="display:flex;align-items:center;gap:.5rem;margin-top:.8rem"><input id="a-pub" type="checkbox" checked style="width:auto"> מפורסם באתר</label>
+        <div style="display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap">
+          <button id="artSaveBtn" class="btn btn-primary">שמירה ופרסום</button>
+          <button id="artNewBtn" class="btn btn-ghost">ניקוי / חדש</button>
+          <a id="artPreviewLink" class="btn btn-ghost hidden" target="_blank" rel="noopener">צפייה במאמר באתר</a>
+        </div>
+      </div>
+      <h2>המאמרים באתר</h2>
+      <div id="articlesList"><p class="muted">טוען…</p></div>
     </section>
 
     <!-- לידים -->
