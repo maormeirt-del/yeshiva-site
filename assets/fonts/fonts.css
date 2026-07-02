@@ -23,6 +23,10 @@
 @font-face{font-family:'Assistant';src:url('assistant-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
 @font-face{font-family:'Assistant';src:url('assistant-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
 
+/* Tel Aviv Modernist — פונט התצוגה הראשי (רישיון מסחרי של מאור, לא להפצה) */
+@font-face{font-family:'Tel Aviv Modernist';src:url('tel-aviv-modernist-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Tel Aviv Modernist';src:url('tel-aviv-modernist-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+
 /* Suez One — serif תצוגה כבד · כותרות עוצמתיות אדיטוריאליות */
 @font-face{font-family:'Suez One';src:url('suez-one-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
 
