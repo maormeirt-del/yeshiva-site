@@ -18,9 +18,15 @@
   }
   function cover(p) {
     if (p.image) return p.image;
-    if (p.videoId) return 'https://i.ytimg.com/vi/' + p.videoId + '/hqdefault.jpg';
+    if (p.videoId) return 'https://i.ytimg.com/vi/' + p.videoId + '/maxresdefault.jpg';
     return '';
   }
+  // maxresdefault חסר בחלק מהסרטונים → נפילה חלקה ל-hqdefault
+  function imgTag(src, alt, vid) {
+    var fb = vid ? " onerror=\"this.onerror=null;this.src='https://i.ytimg.com/vi/" + vid + "/hqdefault.jpg'\"" : '';
+    return '<img loading="lazy" src="' + src + '" alt="' + alt + '"' + fb + '>';
+  }
+  var playBadge = '<span class="news-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>';
 
   function card(p, full) {
     var c = cover(p);
@@ -32,8 +38,8 @@
     art.className = 'news-card reveal';
     art.innerHTML =
       (c ? '<div class="cover">' + (p.videoId
-            ? '<a href="https://www.youtube.com/watch?v=' + p.videoId + '" role="button" aria-label="צפייה בסרטון" data-yt-open="' + p.videoId + '"><img loading="lazy" src="' + c + '" alt="' + esc(p.title) + '"></a>'
-            : '<img loading="lazy" src="' + c + '" alt="' + esc(p.title) + '">') + '</div>' : '') +
+            ? '<a href="https://www.youtube.com/watch?v=' + p.videoId + '" role="button" aria-label="צפייה בסרטון" data-yt-open="' + p.videoId + '">' + imgTag(c, esc(p.title), p.videoId) + playBadge + '</a>'
+            : imgTag(c, esc(p.title), null)) + '</div>' : '') +
       '<div class="body">' +
         '<span class="meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' + fmt(p.date) + '</span>' +
         '<h3>' + esc(p.title) + '</h3>' +
