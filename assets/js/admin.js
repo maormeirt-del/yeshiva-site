@@ -40,12 +40,32 @@
   }
 
   function enterPanel(user) {
-    show($('auth'), false);
-    show($('panel'), true);
-    $('who').textContent = user.email;
-    loadUpdates();
-    loadArticles();
-    loadLeads();
+    // שער הרשאה: רק מייל שברשימת admins נכנס (RLS מגן ממילא — זה ל-UX)
+    sb.rpc('is_admin').then(function (res) {
+      if (res.error || res.data !== true) {
+        sb.auth.signOut().then(function () {
+          showLogin();
+          setMsg($('authMsg'), 'החשבון ' + user.email + ' אינו מורשה לניהול.', false);
+        });
+        return;
+      }
+      show($('auth'), false);
+      show($('panel'), true);
+      $('who').textContent = user.email;
+      loadUpdates();
+      loadArticles();
+      loadLeads();
+    });
+  }
+
+  function loginGoogle() {
+    setMsg($('authMsg'), 'מעביר להתחברות Google…', true);
+    sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: location.origin + location.pathname }
+    }).then(function (res) {
+      if (res.error) setMsg($('authMsg'), 'התחברות Google נכשלה: ' + res.error.message, false);
+    });
   }
 
   function login() {
@@ -357,6 +377,7 @@
       }
       sb = client;
       $('loginBtn').addEventListener('click', login);
+      $('googleBtn').addEventListener('click', loginGoogle);
       $('password').addEventListener('keydown', function (e) { if (e.key === 'Enter') login(); });
       $('logoutBtn').addEventListener('click', logout);
       $('pwBtn').addEventListener('click', changePassword);
