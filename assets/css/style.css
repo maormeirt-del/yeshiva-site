@@ -244,6 +244,8 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:700;colo
   background:radial-gradient(140% 120% at 92% 15%,#EAF1FA,#ffffff 60%);
   border:1px solid rgba(46,134,212,.16);border-radius:var(--radius);padding:1.8rem 2.2rem;text-align:right;box-shadow:var(--shadow-sm)}
 .member.lead-member .photo{width:150px;flex:none;margin:0}
+.member.lead-member .photo.photo-group{width:230px;aspect-ratio:16/11;background:#0c1722}
+.member.lead-member.group-member .inner{background:radial-gradient(140% 120% at 92% 15%,#EAF1FA,#ffffff 60%)}
 .member h4{font-size:1.1rem;color:var(--ink)}
 .member span{font-size:.92rem;color:var(--muted)}
 .member.lead-member h4{font-size:1.5rem;color:var(--blue-deep)}
