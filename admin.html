@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ניהול · ישיבה תיכונית קריית אתא</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  :root{ --nv:#1A4E88; --bl:#2E86D4; --or:#F08A1E; --ink:#1b2733; --line:#dbe3ec; --bg:#f4f7fb; }
+  body{ background:var(--bg); color:var(--ink); font-family:'Heebo',system-ui,sans-serif; margin:0; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:1.4rem clamp(1rem,4vw,2rem) 4rem; }
+  .top{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 0 1.4rem; }
+  .top .brand{ display:flex; align-items:center; gap:.7rem; font-weight:800; color:var(--nv); }
+  .top .brand img{ height:44px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:1.4rem; box-shadow:0 6px 24px rgba(26,78,136,.06); }
+  h1{ font-size:1.5rem; margin:.2rem 0; color:var(--nv); }
+  h2{ font-size:1.15rem; color:var(--nv); margin:0 0 1rem; }
+  label{ display:block; font-weight:600; font-size:.9rem; margin:.7rem 0 .3rem; }
+  input,textarea,select{ width:100%; box-sizing:border-box; padding:.7rem .85rem; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; }
+  textarea{ resize:vertical; }
+  .row{ display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+  .btn{ display:inline-flex; align-items:center; gap:.4rem; border:0; cursor:pointer; font:inherit; font-weight:700; padding:.7rem 1.2rem; border-radius:10px; }
+  .btn-primary{ background:var(--or); color:#fff; }
+  .btn-nv{ background:var(--nv); color:#fff; }
+  .btn-ghost{ background:transparent; border:1px solid var(--line); color:var(--ink); }
+  .btn-danger{ background:#fff; border:1px solid #e0b4b4; color:#c02626; }
+  .btn:disabled{ opacity:.55; cursor:default; }
+  .tabs{ display:flex; gap:.5rem; margin:1.2rem 0; }
+  .tab{ padding:.6rem 1.1rem; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; font-weight:700; }
+  .tab.on{ background:var(--nv); color:#fff; border-color:var(--nv); }
+  .item{ border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem; margin-bottom:.7rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; background:#fff; }
+  .item .t{ font-weight:700; }
+  .item .d{ font-size:.85rem; color:#5b6b7b; }
+  .pill{ font-size:.75rem; padding:.15rem .55rem; border-radius:999px; font-weight:700; }
+  .pill.pub{ background:#e3f5e8; color:#1a7f37; }
+  .pill.dr{ background:#fdeede; color:#a85a00; }
+  .msg{ font-weight:700; margin:.6rem 0; }
+  .msg.ok{ color:#1a7f37; } .msg.err{ color:#c02626; }
+  .hidden{ display:none !important; }
+  .muted{ color:#5b6b7b; font-size:.9rem; }
+  a.back{ color:var(--bl); font-weight:600; text-decoration:none; }
+  @media(max-width:640px){ .row{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <span class="brand"><img src="assets/img/logo.png" alt="">ניהול הישיבה</span>
+    <a class="back" href="index.html">← לאתר</a>
+  </div>
+
+  <!-- ===== התחברות ===== -->
+  <div id="auth" class="card" style="max-width:420px;margin:2rem auto">
+    <h1>כניסת מנהל</h1>
+    <p class="muted">התחברות מאובטחת. גישה רק לחשבון הישיבה.</p>
+    <div id="authMsg" class="msg"></div>
+    <label>אימייל</label>
+    <input id="email" type="email" autocomplete="username" placeholder="you@example.com">
+    <label>סיסמה</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+    <div style="display:flex;gap:.6rem;margin-top:1.1rem">
+      <button id="loginBtn" class="btn btn-nv">התחברות</button>
+    </div>
+  </div>
+
+  <!-- ===== לוח ניהול ===== -->
+  <div id="panel" class="hidden">
+    <div class="top" style="padding-top:0">
+      <div><h1 style="margin:0">שלום 👋</h1><span id="who" class="muted"></span></div>
+      <div style="display:flex;gap:.5rem">
+        <button id="pwBtn" class="btn btn-ghost">החלפת סיסמה</button>
+        <button id="logoutBtn" class="btn btn-ghost">יציאה</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" data-tab="updates">עדכונים</button>
+      <button class="tab" data-tab="leads">פניות והרשמות</button>
+    </div>
+
+    <!-- עדכונים -->
+    <section id="tab-updates">
+      <div class="card" style="margin-bottom:1.2rem">
+        <h2 id="editorTitle">עדכון חדש</h2>
+        <div id="editMsg" class="msg"></div>
+        <input type="hidden" id="u-id">
+        <div class="row">
+          <div><label>כותרת *</label><input id="u-title" placeholder="השבוע בישיבה — פרשת…"></div>
+          <div><label>תאריך</label><input id="u-date" type="date"></div>
+        </div>
+        <div class="row">
+          <div><label>מזהה סרטון יוטיוב (אופציונלי)</label><input id="u-video" placeholder="למשל xYy8JiaLkyM"></div>
+          <div><label>או קישור לתמונה (אופציונלי)</label><input id="u-image" placeholder="https://…"></div>
+        </div>
+        <label>תקציר קצר (מופיע בכרטיס)</label>
+        <textarea id="u-excerpt" rows="2" placeholder="משפט-שניים שמתמצתים את העדכון…"></textarea>
+        <label>גוף העדכון — פסקה בכל שורה</label>
+        <textarea id="u-body" rows="6" placeholder="פסקה ראשונה…&#10;&#10;פסקה שנייה…"></textarea>
+        <div class="row" style="align-items:end">
+          <div><label>סדר תצוגה (גבוה = למעלה)</label><input id="u-order" type="number" value="0"></div>
+          <div><label style="display:flex;align-items:center;gap:.5rem;margin-top:1.7rem"><input id="u-pub" type="checkbox" checked style="width:auto"> מפורסם באתר</label></div>
+        </div>
+        <div style="display:flex;gap:.6rem;margin-top:1.1rem">
+          <button id="saveBtn" class="btn btn-primary">שמירה ופרסום</button>
+          <button id="newBtn" class="btn btn-ghost">ניקוי / חדש</button>
+        </div>
+      </div>
+      <h2>העדכונים באתר</h2>
+      <div id="updatesList"><p class="muted">טוען…</p></div>
+    </section>
+
+    <!-- לידים -->
+    <section id="tab-leads" class="hidden">
+      <h2>פניות והרשמות מהאתר</h2>
+      <div id="leadsList"><p class="muted">טוען…</p></div>
+    </section>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

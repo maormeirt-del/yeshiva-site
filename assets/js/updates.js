@@ -67,18 +67,53 @@
     }
   }
 
+  // ממפה רשומת DB לצורת הפוסט שהרנדר מכיר
+  function fromDB(row) {
+    return {
+      title: row.title,
+      date: row.date,
+      videoId: row.video_id || null,
+      image: row.image || null,
+      excerpt: row.excerpt || '',
+      body: Array.isArray(row.body) ? row.body : []
+    };
+  }
+
+  function renderAll(els, posts) {
+    els.forEach(function (el) { render(el, posts); });
+  }
+
+  // גיבוי: קריאה מקובץ ה-JSON הסטטי
+  function loadFromJSON(els) {
+    fetch('content/updates.json', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) { renderAll(els, (data && data.posts) || []); })
+      .catch(function () {
+        els.forEach(function (el) { el.innerHTML = '<p class="lead">עדכונים יפורסמו כאן בקרוב.</p>'; });
+      });
+  }
+
   function init() {
     var els = document.querySelectorAll('[data-updates]');
     if (!els.length) return;
-    fetch('content/updates.json', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var posts = (data && data.posts) || [];
-        els.forEach(function (el) { render(el, posts); });
-      })
-      .catch(function () {
-        els.forEach(function (el) { el.innerHTML = '<p class="lead">לא ניתן לטעון עדכונים כעת.</p>'; });
+
+    // מקור ראשי: Supabase. אם לא זמין / נכשל — נופלים ל-JSON.
+    if (typeof window.whenSB === 'function') {
+      window.whenSB(function (sb) {
+        if (!sb) return loadFromJSON(els);
+        sb.from('updates')
+          .select('title,date,video_id,image,excerpt,body,sort_order')
+          .eq('published', true)
+          .order('sort_order', { ascending: false })
+          .order('date', { ascending: false })
+          .then(function (res) {
+            if (res.error || !res.data) return loadFromJSON(els);
+            renderAll(els, res.data.map(fromDB));
+          });
       });
+    } else {
+      loadFromJSON(els);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
