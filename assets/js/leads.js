@@ -33,6 +33,10 @@
         setMsg(form, 'נא למלא שם וטלפון (או אימייל).', false);
         return;
       }
+      if (form.elements.marketing_consent && !data.marketing_consent) {
+        setMsg(form, 'כדי שנוכל לחזור אליכם — נא לאשר קבלת עדכונים.', false);
+        return;
+      }
       if (btn) { btn.disabled = true; btn.dataset.txt = btn.textContent; btn.textContent = 'שולח…'; }
 
       window.whenSB(function (sb) {
