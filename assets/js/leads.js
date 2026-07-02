@@ -10,12 +10,11 @@
     if (!box) {
       box = document.createElement('p');
       box.setAttribute('data-lead-msg', '');
-      box.style.marginTop = '.9rem';
-      box.style.fontWeight = '600';
       form.appendChild(box);
     }
     box.textContent = text;
-    box.style.color = ok ? '#1a7f37' : '#c02626';
+    box.classList.toggle('ok', !!ok);
+    box.classList.toggle('err', !ok);
   }
 
   function handle(form) {

@@ -341,6 +341,38 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:400;colo
 .social-row a{width:46px;height:46px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--blue-deep);font-size:1.2rem;transition:transform .2s,background .2s,color .2s}
 .social-row a:hover{transform:translateY(-3px);background:var(--blue);color:#fff}
 
+/* ---------- Lead form (הרשמה / השארת פרטים) ---------- */
+.lead-form{
+  max-width:620px;margin:2.2rem auto 0;text-align:right;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:clamp(1.4rem,3.5vw,2.2rem);box-shadow:var(--shadow);
+  display:grid;gap:1.05rem;
+}
+.lead-form .lf-row{display:grid;grid-template-columns:1fr 1fr;gap:1.05rem}
+.lead-form .lf-field{display:grid;gap:.35rem}
+.lead-form label{
+  font-family:var(--font-ui);font-weight:500;font-size:.88rem;color:var(--blue-deep);
+}
+.lead-form label small{color:var(--muted);font-weight:400}
+.lead-form input{
+  width:100%;font:inherit;color:var(--ink);
+  padding:.8em 1.05em;background:var(--bg);
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.lead-form input::placeholder{color:#96a5b5}
+.lead-form input:focus{
+  outline:none;background:#fff;border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(46,134,212,.14);
+}
+.lead-form .btn{justify-self:center;min-width:220px}
+.lead-form [data-lead-msg]{
+  text-align:center;font-family:var(--font-ui);font-weight:600;margin:0;
+}
+.lead-form [data-lead-msg].ok{color:#1a7f37}
+.lead-form [data-lead-msg].err{color:#c02626}
+@media(max-width:600px){.lead-form .lf-row{grid-template-columns:1fr}}
+
 /* ---------- Footer ---------- */
 .site-footer{background:#0f2238;color:#c7d6e6;padding-block:clamp(3rem,6vw,4.5rem) 1.6rem}
 .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.2rem;padding-bottom:2.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
