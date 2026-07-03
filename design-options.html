@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>בחירת כיוון עיצוב — אתר הישיבה</title>
+<style>
+/* פונטים אמיתיים מהספרייה */
+@font-face{font-family:'Tel Aviv Modernist';src:url('assets/fonts/tel-aviv-modernist-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Tel Aviv Modernist';src:url('assets/fonts/tel-aviv-modernist-700.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Tel Aviv Brutalist';src:url('assets/fonts/tel-aviv-brutalist-700.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Frank Ruhl Libre';src:url('assets/fonts/frank-ruhl-libre-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Frank Ruhl Libre';src:url('assets/fonts/frank-ruhl-libre-900.woff2') format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:'Heebo';src:url('assets/fonts/heebo-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Heebo';src:url('assets/fonts/heebo-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Assistant';src:url('assets/fonts/assistant-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Assistant';src:url('assets/fonts/assistant-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Suez One';src:url('assets/fonts/suez-one-400.woff2') format('woff2');font-weight:400;font-display:swap}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EDF1F6;color:#122338;font-family:'Heebo',sans-serif;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:2.5rem 1.2rem 5rem}
+.top{text-align:center;margin-bottom:2.6rem}
+.top h1{font-family:'Suez One',serif;font-weight:400;font-size:2rem;color:#1A4E88}
+.top p{color:#586879;margin-top:.4rem}
+.opt{border-radius:22px;overflow:hidden;margin-bottom:3.2rem;box-shadow:0 18px 50px rgba(20,38,61,.14);background:#fff}
+.tag{display:flex;align-items:center;gap:.8rem;padding:1rem 1.5rem;background:#fff;border-bottom:1px solid #e3eaf2}
+.tag .letter{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:1.3rem;color:#fff;font-family:'Heebo'}
+.tag b{font-size:1.1rem}
+.tag span.d{color:#586879;font-size:.9rem}
+
+/* ---------- כיוון A: נייבי עומק פרימיום ---------- */
+.heroA{background:radial-gradient(1200px 600px at 85% -10%,#2E86D4 0%,transparent 45%),linear-gradient(160deg,#0E2A4A 0%,#123A66 55%,#0B2340 100%);color:#fff;padding:4.5rem 3rem;position:relative;overflow:hidden}
+.heroA::before{content:"״";position:absolute;top:-.15em;left:4%;font-family:'Frank Ruhl Libre',serif;font-size:16rem;color:rgba(255,255,255,.05);line-height:1}
+.heroA .kick{font-family:'Heebo';font-weight:500;letter-spacing:.22em;font-size:.8rem;color:#FFB25E;margin-bottom:1.1rem}
+.heroA h2{font-family:'Tel Aviv Modernist';font-weight:700;font-size:3.4rem;line-height:1.15;max-width:16ch}
+.heroA h2 em{font-style:normal;color:#F58A1F}
+.heroA p{color:#C7D8EA;max-width:48ch;margin:1.2rem 0 1.8rem;font-size:1.1rem}
+.btnrow{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.85em 1.9em;border-radius:999px;font-weight:700;font-family:'Heebo';text-decoration:none;font-size:1rem}
+.btnA1{background:#F58A1F;color:#2A1606;box-shadow:0 12px 30px rgba(245,138,31,.45)}
+.btnA2{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.stripA{display:flex;gap:2.5rem;padding:1.6rem 3rem;background:#F7F3EB;align-items:center;flex-wrap:wrap}
+.stripA .num{font-family:'Tel Aviv Modernist';font-weight:700;font-size:2.2rem;color:#B85710}
+.stripA .lbl{font-size:.85rem;color:#586879}
+.cardsA{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;padding:1.8rem 3rem 2.4rem;background:#F7F3EB}
+.cardA{background:#fff;border-radius:16px;padding:1.4rem;border:1px solid #eadfcc}
+.cardA h4{font-family:'Tel Aviv Modernist';font-weight:700;font-size:1.25rem;color:#123A66;margin-bottom:.4rem}
+.cardA p{font-size:.95rem;color:#586879}
+
+/* ---------- כיוון B: אור וזהב תורני ---------- */
+.heroB{background:linear-gradient(175deg,#FDFBF6 60%,#F5EDDD 100%);padding:4.5rem 3rem;position:relative;overflow:hidden;border-bottom:4px solid #F58A1F}
+.heroB::after{content:"";position:absolute;inset-inline-start:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(46,134,212,.13),transparent 65%)}
+.heroB .kick{font-family:'Assistant';font-weight:600;letter-spacing:.2em;font-size:.8rem;color:#B85710;margin-bottom:1.1rem}
+.heroB h2{font-family:'Frank Ruhl Libre';font-weight:900;font-size:3.4rem;line-height:1.18;color:#173C63;max-width:17ch}
+.heroB h2 em{font-style:normal;color:#B85710}
+.heroB p{color:#4d5c6d;max-width:50ch;margin:1.2rem 0 1.8rem;font-family:'Assistant';font-size:1.15rem}
+.btnB1{background:#173C63;color:#fff;border-radius:12px;box-shadow:0 12px 28px rgba(23,60,99,.3)}
+.btnB2{background:transparent;color:#B85710;border:1.5px solid #d9b98a;border-radius:12px}
+.quoteB{padding:2rem 3rem;background:#FDFBF6;font-family:'Frank Ruhl Libre';font-size:1.5rem;color:#173C63;border-inline-start:5px solid #F58A1F;margin:0 3rem 2rem;border-radius:0 14px 14px 0;background:#fff;box-shadow:0 8px 26px rgba(23,60,99,.08)}
+.quoteB small{display:block;font-family:'Assistant';font-size:.85rem;color:#8a7a5e;margin-top:.5rem}
+
+/* ---------- כיוון C: אימפקט תל-אביבי ---------- */
+.heroC{background:#0B1B30;color:#fff;padding:4.5rem 3rem;position:relative;overflow:hidden}
+.heroC::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 55%,rgba(245,138,31,.92) 55.3%,rgba(245,138,31,.92) 63%,transparent 63.3%)}
+.heroC::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 68%,rgba(46,134,212,.55) 68.3%,rgba(46,134,212,.55) 71%,transparent 71.3%)}
+.heroC .inner{position:relative;z-index:2}
+.heroC .kick{font-weight:500;letter-spacing:.28em;font-size:.78rem;color:#7FB4E8;margin-bottom:1rem}
+.heroC h2{font-family:'Tel Aviv Brutalist';font-weight:700;font-size:4rem;line-height:1.05;max-width:14ch;text-transform:none}
+.heroC h2 em{font-style:normal;-webkit-text-stroke:2px #F58A1F;color:transparent}
+.heroC p{color:#9FB6CD;max-width:44ch;margin:1.3rem 0 1.8rem;font-size:1.05rem}
+.btnC1{background:#fff;color:#0B1B30;border-radius:0;font-family:'Tel Aviv Brutalist';font-size:1.05rem;padding:.8em 2em}
+.btnC2{background:transparent;color:#F58A1F;border:2px solid #F58A1F;border-radius:0;font-family:'Tel Aviv Brutalist'}
+.marqC{background:#F58A1F;color:#2A1606;font-family:'Tel Aviv Brutalist';font-weight:700;font-size:1.3rem;padding:.7rem 3rem;white-space:nowrap;overflow:hidden}
+
+.note{background:#fff;border:1px solid #dbe4ee;border-radius:14px;padding:1.1rem 1.4rem;color:#586879;font-size:.95rem}
+@media(max-width:760px){
+  .heroA h2,.heroB h2{font-size:2.3rem}
+  .heroC h2{font-size:2.6rem}
+  .heroA,.heroB,.heroC{padding:3rem 1.4rem}
+  .stripA,.cardsA{padding-inline:1.4rem}
+  .quoteB{margin-inline:1.4rem}
+  .cardsA{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>שלושה כיווני עיצוב — אתר הישיבה</h1>
+    <p>אותה פלטת לוגו (כחול · נייבי · כתום) — שלוש דרכים שונות להגיש אותה. הפונטים אמיתיים.</p>
+  </div>
+
+  <!-- ================= A ================= -->
+  <div class="opt">
+    <div class="tag"><span class="letter" style="background:#123A66">A</span>
+      <div><b>נייבי עומק פרימיום</b> · <span class="d">כמו מכון אבולעפיה — הירו כהה עשיר, סקשנים בקרם חם, כתום כזהב · פונט: תל אביב מודרניסט + Heebo</span></div>
+    </div>
+    <div class="heroA">
+      <div class="kick">ישיבה תיכונית · קריית אתא</div>
+      <h2>בית שבו כל נער<br>גדל <em>לאדם שלם</em></h2>
+      <p>תורה, ערכים, מצוינות לימודית וחוגים — עם יחס אישי ולב פתוח. ברוח הרב קוק, בלב קריית אתא.</p>
+      <div class="btnrow"><a class="btn btnA1" href="#">להרשמה לשנת הלימודים ←</a><a class="btn btnA2" href="#">להתרשם מקרוב</a></div>
+    </div>
+    <div class="stripA">
+      <div><div class="num">94%</div><div class="lbl">זכאות לבגרות</div></div>
+      <div><div class="num">310</div><div class="lbl">תלמידים</div></div>
+      <div><div class="num">30</div><div class="lbl">שנות פעילות</div></div>
+      <div><div class="num">+1,500</div><div class="lbl">בוגרים</div></div>
+    </div>
+    <div class="cardsA">
+      <div class="cardA"><h4>תורה עם נשמה</h4><p>בית מדרש חי, שיחות ראש הישיבה, קואצ'ינג יהודי ומעטפת אישית לכל תלמיד.</p></div>
+      <div class="cardA"><h4>מצוינות בלימודים</h4><p>מגמות פיזיקה, מדעי המחשב, ביולוגיה ואלקטרוניקה — עם מעקב בגרויות פרטני.</p></div>
+    </div>
+  </div>
+
+  <!-- ================= B ================= -->
+  <div class="opt">
+    <div class="tag"><span class="letter" style="background:#B85710">B</span>
+      <div><b>אור וזהב תורני</b> · <span class="d">בהיר, חם ומכובד — סרייף עברי כבד, אווירת בית מדרש מוארת · פונט: פרנק-רוהל 900 + Assistant</span></div>
+    </div>
+    <div class="heroB">
+      <div class="kick">ישיבה תיכונית · קריית אתא</div>
+      <h2>בית של תורה, צמיחה <em>ומשמעות</em></h2>
+      <p>מקום שבו נער לא נמדד מול אחרים אלא מול עצמו — ומקבל את הכלים, האמון והאהבה לגלות את האור שבתוכו.</p>
+      <div class="btnrow"><a class="btn btnB1" href="#">להרשמה לשנת הלימודים ←</a><a class="btn btnB2" href="#">דברו איתנו</a></div>
+    </div>
+    <div class="quoteB">"ראיתי אותכם במדורות — הרגשתי את מירון קטן. לא ראיתי דבר כזה."<small>— תורם שהתקשר אחרי ל"ג בעומר</small></div>
+  </div>
+
+  <!-- ================= C ================= -->
+  <div class="opt">
+    <div class="tag"><span class="letter" style="background:#F58A1F;color:#2A1606">C</span>
+      <div><b>אימפקט תל-אביבי</b> · <span class="d">נועז וצעיר — אלכסונים, קונטרסט חד, כותרות ברוטליסט · פונט: תל אביב ברוטליסט + Heebo</span></div>
+    </div>
+    <div class="heroC">
+      <div class="inner">
+        <div class="kick">ישיבה תיכונית · קריית אתא</div>
+        <h2>גדלים בתורה.<br>חיים <em>בגדול.</em></h2>
+        <p>ישיבה עם דופק — תורה, מגמות מצוינות, נגרות, קונדיטוריה וחקלאות. מקום שצומחים בו.</p>
+        <div class="btnrow"><a class="btn btnC1" href="#">בואו להתרשם</a><a class="btn btnC2" href="#">הסיפור שלנו</a></div>
+      </div>
+    </div>
+    <div class="marqC">תורה ★ ערכים ★ מצוינות ★ בריאות נפשית ★ תורה ★ ערכים ★ מצוינות</div>
+  </div>
+
+  <p class="note">💡 אפשר גם לערבב — למשל מבנה של A עם הפונט של B. הפלטה בכל השלושה היא פלטת הלוגו; ההבדל הוא באווירה, בפונט ובאופי הרקעים.</p>
+</div>
+</body>
+</html>

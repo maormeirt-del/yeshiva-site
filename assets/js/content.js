@@ -10,8 +10,16 @@
     if (!sel) return;
     var el = document.querySelector(sel);
     if (!el) return;
-    if (mode === 'html') el.innerHTML = val;
-    else el.textContent = val;
+    if (mode === 'html') { el.innerHTML = val; return; }
+    if (mode === 'counter') {
+      var num = String(val).replace(/[^0-9]/g, '');
+      var suffix = String(val).replace(/[0-9,\s]/g, '');
+      if (num) el.setAttribute('data-count', num);
+      if (suffix) el.setAttribute('data-suffix', suffix); else el.removeAttribute('data-suffix');
+      el.textContent = val;   // ערך סופי מיידי (מנצח את אנימציית המונה)
+      return;
+    }
+    el.textContent = val;
   }
 
   function digits(s) { return (s || '').replace(/[^0-9]/g, ''); }

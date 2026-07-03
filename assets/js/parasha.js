@@ -1,7 +1,7 @@
 /* ============================================================
    parasha.js — פינת "פרשה ופירשה": דברי תורה של תלמידים.
-   טוען מ-Supabase (divrei_torah), מציג את האחרון במלואו + קודמים.
-   נופל בשקט אם אין חיבור/תוכן.
+   בסגנון פינת המאמרים: כרטיסים בדף הבית + דף מלא (parasha.html).
+   לחיצה על כרטיס פותחת את דבר התורה המלא במודאל (כרטיס-מגילה).
    ============================================================ */
 (function () {
   'use strict';
@@ -28,50 +28,50 @@
     }).join('');
   }
 
-  function byline(p) {
-    return '<div class="dt-byline">' +
-      '<span class="dt-quill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 4S9 5 5 12c-1.5 2.5-2 6-2 6s3.5-.5 6-2c7-4 8-15 8-15Z"/><path d="M5 19c2-4 5-7 9-9"/></svg></span>' +
-      '<div><b>' + esc(p.author || 'תלמיד הישיבה') + '</b>' +
-      (p.grade ? '<span>' + esc(p.grade) + '</span>' : '') + '</div>' +
-      (p.date ? '<span class="dt-date">' + fmt(p.date) + '</span>' : '') +
-      '</div>';
+  // כרטיס בסגנון article-card (לדף הבית ולדף המלא)
+  function card(p) {
+    var key = esc(p.slug || p.id);
+    return '<article class="article-card">' +
+      '<a class="stretch" href="parasha.html" data-dt-open="' + key + '" aria-label="' + esc(p.title) + '"></a>' +
+      '<div class="cover"><span class="parasha-tag">פרשת ' + esc(p.parasha || '') + '</span></div>' +
+      '<div class="body">' +
+        '<div class="meta"><span>✍️ ' + esc(p.author || 'תלמיד הישיבה') + '</span>' + (p.grade ? '<span>' + esc(p.grade) + '</span>' : '') + '</div>' +
+        '<h3>' + esc(p.title) + '</h3>' +
+        (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') +
+        '<span class="read">קראו את דבר התורה <span class="arr">←</span></span>' +
+      '</div>' +
+    '</article>';
   }
 
-  function featured(p) {
-    return '<article class="dt-featured reveal">' +
+  // תצוגה מלאה (מגילה) — למודאל ולדף פריט
+  function full(p) {
+    return '<article class="dt-featured">' +
       '<div class="dt-ribbon"><span class="dt-tag">פרשת ' + esc(p.parasha || '') + '</span><span class="dt-kicker">דבר תורה לפרשה</span></div>' +
       '<h3 class="dt-title">' + esc(p.title) + '</h3>' +
       (p.verse ? '<div class="dt-verse">״' + esc(p.verse) + '״</div>' : '') +
       '<div class="dt-body">' + blocksHtml(p.body) + '</div>' +
-      byline(p) +
+      '<div class="dt-byline">' +
+        '<span class="dt-quill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 4S9 5 5 12c-1.5 2.5-2 6-2 6s3.5-.5 6-2c7-4 8-15 8-15Z"/><path d="M5 19c2-4 5-7 9-9"/></svg></span>' +
+        '<div><b>' + esc(p.author || 'תלמיד הישיבה') + '</b>' + (p.grade ? '<span>' + esc(p.grade) + '</span>' : '') + '</div>' +
+        (p.date ? '<span class="dt-date">' + fmt(p.date) + '</span>' : '') +
+      '</div>' +
     '</article>';
   }
 
-  function miniCard(p) {
-    return '<button class="dt-mini" type="button" data-dt-open="' + esc(p.slug || p.id) + '">' +
-      '<span class="dt-mini-tag">פרשת ' + esc(p.parasha || '') + '</span>' +
-      '<span class="dt-mini-title">' + esc(p.title) + '</span>' +
-      '<span class="dt-mini-by">' + esc(p.author || '') + (p.grade ? ' · ' + esc(p.grade) : '') + '</span>' +
-    '</button>';
-  }
-
-  function render(el, list) {
-    if (!list.length) { el.innerHTML = '<p class="lead center">בקרוב — דבר התורה הראשון של התלמידים.</p>'; return; }
-    var top = list[0], rest = list.slice(1);
-    var html = featured(top);
-    if (rest.length) {
-      html += '<div class="dt-prev"><h4 class="dt-prev-h">דברי תורה קודמים</h4><div class="dt-grid">' +
-        rest.map(miniCard).join('') + '</div></div>';
-    }
-    el.innerHTML = html;
-
-    // מודאל לדברי תורה קודמים
-    el.querySelectorAll('[data-dt-open]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var p = list.filter(function (x) { return (x.slug || x.id) === btn.getAttribute('data-dt-open'); })[0];
+  function wireCards(scope, list) {
+    scope.querySelectorAll('[data-dt-open]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var p = list.filter(function (x) { return (x.slug || x.id) === a.getAttribute('data-dt-open'); })[0];
         if (p) openModal(p);
       });
     });
+  }
+
+  function renderCards(el, list) {
+    if (!list.length) { el.innerHTML = '<p class="lead center">בקרוב — דבר התורה הראשון של התלמידים.</p>'; return; }
+    el.innerHTML = '<div class="articles-grid">' + list.map(card).join('') + '</div>';
+    wireCards(el, list);
   }
 
   function openModal(p) {
@@ -84,7 +84,7 @@
       m.addEventListener('click', function (e) { if (e.target === m) closeModal(); });
       m.querySelector('.dt-modal-close').addEventListener('click', closeModal);
     }
-    m.querySelector('.dt-modal-body').innerHTML = featured(p);
+    m.querySelector('.dt-modal-body').innerHTML = full(p);
     m.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -96,18 +96,27 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
   function boot() {
-    var el = document.querySelector('[data-divrei]');
-    if (!el || !window.whenSB) return;
+    var home = document.querySelector('[data-divrei]');       // דף הבית (עד 3)
+    var all = document.querySelector('[data-divrei-all]');    // parasha.html (הכול)
+    if ((!home && !all) || !window.whenSB) return;
     window.whenSB(function (sb) {
       if (!sb) return;
       sb.from('divrei_torah')
-        .select('id,slug,parasha,title,author,grade,verse,body,date,sort_order,published')
+        .select('id,slug,parasha,title,author,grade,verse,excerpt,body,date,sort_order,published')
         .eq('published', true)
         .order('sort_order', { ascending: false })
         .order('date', { ascending: false })
         .then(function (res) {
-          if (res.error) { return; }
-          render(el, res.data || []);
+          if (res.error) return;
+          var list = res.data || [];
+          if (home) renderCards(home, list.slice(0, 3));
+          if (all) renderCards(all, list);
+          // פתיחה ישירה לפי ?read=slug
+          var m = location.search.match(/[?&]read=([^&]+)/);
+          if (m) {
+            var p = list.filter(function (x) { return (x.slug || x.id) === decodeURIComponent(m[1]); })[0];
+            if (p) openModal(p);
+          }
         });
     });
   }

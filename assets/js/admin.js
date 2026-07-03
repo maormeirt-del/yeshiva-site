@@ -444,7 +444,8 @@
   }
 
   /* ---------- Site content (CMS) ---------- */
-  var cmsLoaded = {};   // key -> ערך אחרון מהמסד (לזיהוי שינויים)
+  var cmsLoaded = {};    // key -> ערך שמור במסד (אם קיים)
+  var cmsDefaults = {};  // key -> ערך נוכחי מדף הבית (fallback להצגה)
 
   function renderContentForm() {
     var schema = window.CMS_SCHEMA || [];
@@ -465,20 +466,43 @@
     $('cmsForm').innerHTML = html || '<p class="muted">אין הגדרת תוכן.</p>';
   }
 
+  function fillContentInputs() {
+    document.querySelectorAll('[data-cmskey]').forEach(function (inp) {
+      var k = inp.getAttribute('data-cmskey');
+      if (cmsLoaded[k] != null && cmsLoaded[k] !== '') inp.value = cmsLoaded[k];
+      else inp.value = cmsDefaults[k] != null ? cmsDefaults[k] : '';
+    });
+  }
+
   function loadContent() {
     renderContentForm();
+    var dbDone = false, defDone = false;
+    function maybeFill() { if (dbDone && defDone) fillContentInputs(); }
+
+    // ערכים שמורים מהמסד
     sb.from('site_content').select('key,value').then(function (res) {
-      if (res.error) { setMsg($('cmsMsg'), 'שגיאה בטעינה: ' + res.error.message, false); return; }
       cmsLoaded = {};
-      (res.data || []).forEach(function (r) {
+      if (!res.error) (res.data || []).forEach(function (r) {
         var v = r.value; if (v && typeof v === 'object' && 'v' in v) v = v.v;
         cmsLoaded[r.key] = (v == null ? '' : String(v));
       });
-      document.querySelectorAll('[data-cmskey]').forEach(function (inp) {
-        var k = inp.getAttribute('data-cmskey');
-        inp.value = cmsLoaded[k] != null ? cmsLoaded[k] : '';
-      });
+      dbDone = true; maybeFill();
     });
+
+    // ברירות מחדל — נמשכות ישירות מדף הבית הנוכחי (בלי seeding)
+    fetch('index.html').then(function (r) { return r.text(); }).then(function (html) {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      cmsDefaults = {};
+      (window.CMS_SCHEMA || []).forEach(function (g) {
+        g.fields.forEach(function (f) {
+          if (f.special === 'whatsapp' || !f.sel) return;
+          var el; try { el = doc.querySelector(f.sel); } catch (e) { el = null; }
+          if (!el) return;
+          if (f.mode === 'counter') cmsDefaults[f.key] = (el.getAttribute('data-count') || el.textContent.trim()) + (el.getAttribute('data-suffix') || '');
+          else cmsDefaults[f.key] = (f.mode === 'html') ? el.innerHTML.trim() : el.textContent.trim();
+        });
+      });
+    }).catch(function () {}).then(function () { defDone = true; maybeFill(); });
   }
 
   function saveContent() {
@@ -486,8 +510,8 @@
     document.querySelectorAll('[data-cmskey]').forEach(function (inp) {
       var k = inp.getAttribute('data-cmskey');
       var v = inp.value.trim();
-      var prev = cmsLoaded[k] != null ? cmsLoaded[k] : '';
-      if (v !== prev) rows.push({ key: k, value: v });
+      var baseline = (cmsLoaded[k] != null && cmsLoaded[k] !== '') ? cmsLoaded[k] : (cmsDefaults[k] || '');
+      if (v !== baseline) rows.push({ key: k, value: v });
     });
     if (!rows.length) { setMsg($('cmsMsg'), 'אין שינויים לשמירה.', true); return; }
     $('cmsSaveBtn').disabled = true;
