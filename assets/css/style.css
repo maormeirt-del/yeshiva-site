@@ -251,6 +251,14 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:700;colo
 .member.lead-member h4{font-size:1.5rem;color:var(--blue-deep)}
 .member.lead-member span{font-size:1.05rem;color:var(--orange-deep);font-weight:700}
 
+/* ---------- Team banner (תמונה קבוצתית רחבה) ---------- */
+.team-banner{grid-column:1/-1;margin:1rem 0 0;border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--border);background:#0c1722}
+.team-banner img{width:100%;height:auto;display:block;transition:transform .6s var(--ease)}
+.team-banner:hover img{transform:scale(1.02)}
+.team-banner figcaption{padding:.85rem 1.2rem;text-align:center;font-family:var(--font-ui);
+  font-weight:600;font-size:.95rem;color:var(--blue-deep);background:var(--surface)}
+
 /* ---------- Testimonials ---------- */
 .tst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem}
 .tst{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.8rem;position:relative}
