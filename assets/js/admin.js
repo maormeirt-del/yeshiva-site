@@ -52,6 +52,7 @@
       show($('auth'), false);
       show($('panel'), true);
       $('who').textContent = user.email;
+      loadContent();
       loadUpdates();
       loadArticles();
       loadLeads();
@@ -354,6 +355,63 @@
       });
   }
 
+  /* ---------- Site content (CMS) ---------- */
+  var cmsLoaded = {};   // key -> ערך אחרון מהמסד (לזיהוי שינויים)
+
+  function renderContentForm() {
+    var schema = window.CMS_SCHEMA || [];
+    var html = '';
+    schema.forEach(function (grp) {
+      html += '<div class="card" style="margin-bottom:1rem">';
+      html += '<h2>' + esc(grp.group) + '</h2>';
+      if (grp.hint) html += '<p class="muted" style="margin:-.6rem 0 1rem">' + esc(grp.hint) + '</p>';
+      grp.fields.forEach(function (f) {
+        var id = 'cms__' + f.key;
+        html += '<label for="' + id + '">' + esc(f.label) + '</label>';
+        html += (f.type === 'textarea')
+          ? '<textarea id="' + id + '" rows="3" data-cmskey="' + esc(f.key) + '"></textarea>'
+          : '<input id="' + id + '" type="text" data-cmskey="' + esc(f.key) + '">';
+      });
+      html += '</div>';
+    });
+    $('cmsForm').innerHTML = html || '<p class="muted">אין הגדרת תוכן.</p>';
+  }
+
+  function loadContent() {
+    renderContentForm();
+    sb.from('site_content').select('key,value').then(function (res) {
+      if (res.error) { setMsg($('cmsMsg'), 'שגיאה בטעינה: ' + res.error.message, false); return; }
+      cmsLoaded = {};
+      (res.data || []).forEach(function (r) {
+        var v = r.value; if (v && typeof v === 'object' && 'v' in v) v = v.v;
+        cmsLoaded[r.key] = (v == null ? '' : String(v));
+      });
+      document.querySelectorAll('[data-cmskey]').forEach(function (inp) {
+        var k = inp.getAttribute('data-cmskey');
+        inp.value = cmsLoaded[k] != null ? cmsLoaded[k] : '';
+      });
+    });
+  }
+
+  function saveContent() {
+    var rows = [];
+    document.querySelectorAll('[data-cmskey]').forEach(function (inp) {
+      var k = inp.getAttribute('data-cmskey');
+      var v = inp.value.trim();
+      var prev = cmsLoaded[k] != null ? cmsLoaded[k] : '';
+      if (v !== prev) rows.push({ key: k, value: v });
+    });
+    if (!rows.length) { setMsg($('cmsMsg'), 'אין שינויים לשמירה.', true); return; }
+    $('cmsSaveBtn').disabled = true;
+    setMsg($('cmsMsg'), 'שומר…', true);
+    sb.from('site_content').upsert(rows, { onConflict: 'key' }).then(function (res) {
+      $('cmsSaveBtn').disabled = false;
+      if (res.error) { setMsg($('cmsMsg'), 'שמירה נכשלה: ' + res.error.message, false); return; }
+      rows.forEach(function (r) { cmsLoaded[r.key] = r.value; });
+      setMsg($('cmsMsg'), 'נשמרו ' + rows.length + ' שינויים ✓ — רעננו את האתר לראות.', true);
+    });
+  }
+
   /* ---------- Tabs ---------- */
   function initTabs() {
     document.querySelectorAll('.tab').forEach(function (t) {
@@ -361,6 +419,7 @@
         document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('on'); });
         t.classList.add('on');
         var name = t.dataset.tab;
+        show($('tab-content'), name === 'content');
         show($('tab-updates'), name === 'updates');
         show($('tab-articles'), name === 'articles');
         show($('tab-leads'), name === 'leads');
@@ -385,6 +444,7 @@
       $('newBtn').addEventListener('click', clearEditor);
       $('artSaveBtn').addEventListener('click', saveArticle);
       $('artNewBtn').addEventListener('click', clearArticleEditor);
+      $('cmsSaveBtn').addEventListener('click', saveContent);
       clearEditor();
       clearArticleEditor();
       initTabs();

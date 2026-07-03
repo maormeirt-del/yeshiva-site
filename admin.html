@@ -84,13 +84,23 @@
     </div>
 
     <div class="tabs">
-      <button class="tab on" data-tab="updates">עדכונים</button>
+      <button class="tab on" data-tab="content">תוכן האתר</button>
+      <button class="tab" data-tab="updates">עדכונים</button>
       <button class="tab" data-tab="articles">מאמרים</button>
       <button class="tab" data-tab="leads">פניות והרשמות</button>
     </div>
 
+    <!-- תוכן האתר (CMS) -->
+    <section id="tab-content">
+      <div class="card" style="margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+        <div><h2 style="margin:0">עריכת תוכן האתר</h2><span class="muted">שנו טקסטים ופרטים בכל פינה — נשמר ומתעדכן באתר מיד.</span></div>
+        <div style="display:flex;gap:.6rem;align-items:center"><span id="cmsMsg" class="msg"></span><button id="cmsSaveBtn" class="btn btn-primary">שמירת כל השינויים</button></div>
+      </div>
+      <div id="cmsForm"><p class="muted">טוען…</p></div>
+    </section>
+
     <!-- עדכונים -->
-    <section id="tab-updates">
+    <section id="tab-updates" class="hidden">
       <div class="card" style="margin-bottom:1.2rem">
         <h2 id="editorTitle">עדכון חדש</h2>
         <div id="editMsg" class="msg"></div>
@@ -174,6 +184,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/cms-schema.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>
 </html>
