@@ -71,6 +71,10 @@ window.CMS_SCHEMA = [
       { key: 'articles.heading', label: 'מאמרים — כותרת',   type: 'text',     sel: '#articles .h-sec' },
       { key: 'articles.lead',    label: 'מאמרים — תת-כותרת', type: 'textarea', sel: '#articles .lead' },
 
+      { key: 'parasha.kicker',  label: 'פרשה ופירשה — עינית',   type: 'text',     sel: '#parasha .kicker' },
+      { key: 'parasha.heading', label: 'פרשה ופירשה — כותרת',   type: 'text',     sel: '#parasha .h-sec' },
+      { key: 'parasha.lead',    label: 'פרשה ופירשה — תת-כותרת', type: 'textarea', sel: '#parasha .lead' },
+
       { key: 'contact.kicker',  label: 'צור קשר — עינית',   type: 'text',     sel: '#contact .kicker' },
       { key: 'contact.heading', label: 'צור קשר — כותרת',   type: 'text',     sel: '#contact .h-sec' },
       { key: 'contact.lead',    label: 'צור קשר — תת-כותרת', type: 'textarea', sel: '#contact .lead' }

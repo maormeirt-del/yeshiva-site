@@ -55,6 +55,7 @@
       loadContent();
       loadUpdates();
       loadArticles();
+      loadDivrei();
       loadLeads();
     });
   }
@@ -328,6 +329,93 @@
       });
   }
 
+  /* ---------- Divrei Torah (פרשה ופירשה) ---------- */
+  function clearDivrei() {
+    ['d-id','d-title','d-parasha','d-author','d-grade','d-verse','d-excerpt','d-body','d-slug'].forEach(function (id) { $(id).value = ''; });
+    $('d-order').value = '100';
+    $('d-pub').checked = true;
+    $('dtEditorTitle').textContent = 'דבר תורה חדש';
+    setMsg($('dtMsg'), '', true);
+  }
+  function fillDivrei(row) {
+    $('d-id').value = row.id;
+    $('d-title').value = row.title || '';
+    $('d-parasha').value = row.parasha || '';
+    $('d-author').value = row.author || '';
+    $('d-grade').value = row.grade || '';
+    $('d-verse').value = row.verse || '';
+    $('d-excerpt').value = row.excerpt || '';
+    $('d-body').value = blocksToArticleText(row.body);
+    $('d-slug').value = row.slug || '';
+    $('d-order').value = row.sort_order != null ? row.sort_order : 100;
+    $('d-pub').checked = !!row.published;
+    $('dtEditorTitle').textContent = 'עריכת דבר תורה';
+    setMsg($('dtMsg'), '', true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function saveDivrei() {
+    var title = $('d-title').value.trim();
+    if (!title) { setMsg($('dtMsg'), 'צריך כותרת.', false); return; }
+    var body = articleTextToBlocks($('d-body').value);
+    if (!body.length) { setMsg($('dtMsg'), 'גוף דבר התורה ריק.', false); return; }
+    var payload = {
+      title: title,
+      parasha: $('d-parasha').value.trim() || null,
+      author: $('d-author').value.trim() || null,
+      grade: $('d-grade').value.trim() || null,
+      verse: $('d-verse').value.trim() || null,
+      excerpt: $('d-excerpt').value.trim() || null,
+      body: body,
+      slug: $('d-slug').value.trim() || ('dt-' + Date.now().toString(36)),
+      sort_order: parseInt($('d-order').value, 10) || 0,
+      published: $('d-pub').checked
+    };
+    var id = $('d-id').value;
+    $('dtSaveBtn').disabled = true;
+    setMsg($('dtMsg'), 'שומר…', true);
+    var q = id ? sb.from('divrei_torah').update(payload).eq('id', id) : sb.from('divrei_torah').insert(payload);
+    q.then(function (res) {
+      $('dtSaveBtn').disabled = false;
+      if (res.error) { setMsg($('dtMsg'), 'שמירה נכשלה: ' + res.error.message, false); return; }
+      setMsg($('dtMsg'), 'נשמר בהצלחה ✓', true);
+      clearDivrei();
+      loadDivrei();
+    });
+  }
+  function delDivrei(id, title) {
+    if (!confirm('למחוק את דבר התורה "' + title + '"? הפעולה בלתי הפיכה.')) return;
+    sb.from('divrei_torah').delete().eq('id', id).then(function (res) {
+      if (res.error) { alert('מחיקה נכשלה: ' + res.error.message); return; }
+      loadDivrei();
+    });
+  }
+  function loadDivrei() {
+    sb.from('divrei_torah')
+      .select('id,slug,parasha,title,author,grade,verse,excerpt,body,sort_order,published,date')
+      .order('sort_order', { ascending: false })
+      .order('date', { ascending: false })
+      .then(function (res) {
+        var box = $('divreiList');
+        if (res.error) { box.innerHTML = '<p class="msg err">שגיאה בטעינה: ' + esc(res.error.message) + '</p>'; return; }
+        var rows = res.data || [];
+        if (!rows.length) { box.innerHTML = '<p class="muted">אין עדיין דברי תורה. הוסיפו את הראשון למעלה.</p>'; return; }
+        box.innerHTML = '';
+        rows.forEach(function (r) {
+          var el = document.createElement('div');
+          el.className = 'item';
+          el.innerHTML =
+            '<div><span class="t">' + esc(r.title) + '</span>' +
+            ' <span class="pill ' + (r.published ? 'pub">מפורסם' : 'dr">טיוטה') + '</span>' +
+            '<div class="d">' + esc(r.parasha || '') + ' · ' + esc(r.author || '') + (r.grade ? ' · ' + esc(r.grade) : '') + '</div></div>' +
+            '<div style="display:flex;gap:.4rem"><button class="btn btn-ghost" data-edit>עריכה</button>' +
+            '<button class="btn btn-danger" data-del>מחיקה</button></div>';
+          el.querySelector('[data-edit]').addEventListener('click', function () { fillDivrei(r); });
+          el.querySelector('[data-del]').addEventListener('click', function () { delDivrei(r.id, r.title); });
+          box.appendChild(el);
+        });
+      });
+  }
+
   /* ---------- Leads ---------- */
   function loadLeads() {
     sb.from('leads')
@@ -422,6 +510,7 @@
         show($('tab-content'), name === 'content');
         show($('tab-updates'), name === 'updates');
         show($('tab-articles'), name === 'articles');
+        show($('tab-divrei'), name === 'divrei');
         show($('tab-leads'), name === 'leads');
       });
     });
@@ -445,8 +534,11 @@
       $('artSaveBtn').addEventListener('click', saveArticle);
       $('artNewBtn').addEventListener('click', clearArticleEditor);
       $('cmsSaveBtn').addEventListener('click', saveContent);
+      $('dtSaveBtn').addEventListener('click', saveDivrei);
+      $('dtNewBtn').addEventListener('click', clearDivrei);
       clearEditor();
       clearArticleEditor();
+      clearDivrei();
       initTabs();
       refreshSession();
     });
