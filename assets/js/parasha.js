@@ -33,7 +33,7 @@
     var key = esc(p.slug || p.id);
     return '<article class="article-card">' +
       '<a class="stretch" href="parasha.html" data-dt-open="' + key + '" aria-label="' + esc(p.title) + '"></a>' +
-      '<div class="cover"><span class="parasha-tag">פרשת ' + esc(p.parasha || '') + '</span></div>' +
+      '<div class="cover"><span class="parasha-tag">פרשת ' + esc(p.parasha || '') + '</span>' + (p.video_id ? '<span class="parasha-vid">▶ עם סרטון</span>' : '') + '</div>' +
       '<div class="body">' +
         '<div class="meta"><span>✍️ ' + esc(p.author || 'תלמיד הישיבה') + '</span>' + (p.grade ? '<span>' + esc(p.grade) + '</span>' : '') + '</div>' +
         '<h3>' + esc(p.title) + '</h3>' +
@@ -49,6 +49,7 @@
       '<div class="dt-ribbon"><span class="dt-tag">פרשת ' + esc(p.parasha || '') + '</span><span class="dt-kicker">דבר תורה לפרשה</span></div>' +
       '<h3 class="dt-title">' + esc(p.title) + '</h3>' +
       (p.verse ? '<div class="dt-verse">״' + esc(p.verse) + '״</div>' : '') +
+      (p.video_id ? '<div class="dt-vid"><iframe loading="lazy" src="https://www.youtube.com/embed/' + esc(p.video_id) + '" title="' + esc(p.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>' : '') +
       '<div class="dt-body">' + blocksHtml(p.body) + '</div>' +
       '<div class="dt-byline">' +
         '<span class="dt-quill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 4S9 5 5 12c-1.5 2.5-2 6-2 6s3.5-.5 6-2c7-4 8-15 8-15Z"/><path d="M5 19c2-4 5-7 9-9"/></svg></span>' +
@@ -102,7 +103,7 @@
     window.whenSB(function (sb) {
       if (!sb) return;
       sb.from('divrei_torah')
-        .select('id,slug,parasha,title,author,grade,verse,excerpt,body,date,sort_order,published')
+        .select('id,slug,parasha,title,author,grade,verse,video_id,excerpt,body,date,sort_order,published')
         .eq('published', true)
         .order('sort_order', { ascending: false })
         .order('date', { ascending: false })

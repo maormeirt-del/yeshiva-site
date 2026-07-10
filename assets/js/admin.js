@@ -331,7 +331,7 @@
 
   /* ---------- Divrei Torah (פרשה ופירשה) ---------- */
   function clearDivrei() {
-    ['d-id','d-title','d-parasha','d-author','d-grade','d-verse','d-excerpt','d-body','d-slug'].forEach(function (id) { $(id).value = ''; });
+    ['d-id','d-title','d-parasha','d-author','d-grade','d-verse','d-video','d-excerpt','d-body','d-slug'].forEach(function (id) { $(id).value = ''; });
     $('d-order').value = '100';
     $('d-pub').checked = true;
     $('dtEditorTitle').textContent = 'דבר תורה חדש';
@@ -344,6 +344,7 @@
     $('d-author').value = row.author || '';
     $('d-grade').value = row.grade || '';
     $('d-verse').value = row.verse || '';
+    $('d-video').value = row.video_id || '';
     $('d-excerpt').value = row.excerpt || '';
     $('d-body').value = blocksToArticleText(row.body);
     $('d-slug').value = row.slug || '';
@@ -364,6 +365,7 @@
       author: $('d-author').value.trim() || null,
       grade: $('d-grade').value.trim() || null,
       verse: $('d-verse').value.trim() || null,
+      video_id: $('d-video').value.trim() || null,
       excerpt: $('d-excerpt').value.trim() || null,
       body: body,
       slug: $('d-slug').value.trim() || ('dt-' + Date.now().toString(36)),
@@ -391,7 +393,7 @@
   }
   function loadDivrei() {
     sb.from('divrei_torah')
-      .select('id,slug,parasha,title,author,grade,verse,excerpt,body,sort_order,published,date')
+      .select('id,slug,parasha,title,author,grade,verse,video_id,excerpt,body,sort_order,published,date')
       .order('sort_order', { ascending: false })
       .order('date', { ascending: false })
       .then(function (res) {
