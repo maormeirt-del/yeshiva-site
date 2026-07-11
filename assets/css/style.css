@@ -706,7 +706,7 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:700;colo
 .a11y-btn{flex:1;min-width:72px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);border-radius:10px;
   padding:.55em .4em;font-family:var(--font-ui);font-weight:500;font-size:.86rem;cursor:pointer;transition:border-color .2s,background .2s}
 .a11y-btn:hover{border-color:var(--blue)}
-.a11y-btn.active{background:var(--blue-soft);border-color:var(--blue);color:var(--blue-deep)}
+.a11y-btn.active,.a11y-btn[aria-pressed="true"]{background:var(--blue-soft);border-color:var(--blue);color:var(--blue-deep)}
 .a11y-reset{width:100%;margin-top:.3rem;color:var(--muted);background:none;border:none;font-family:var(--font-ui);font-size:.82rem;cursor:pointer;text-decoration:underline}
 
 /* Accessibility states */
@@ -719,6 +719,33 @@ html.a11y-nomotion .hero-video iframe{display:none}
 
 .mt-sm{margin-top:1.4rem}.mt-md{margin-top:2.2rem}.mt-lg{margin-top:3rem}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ============================================================
+   נגישות — דילוג לתוכן + סימון focus למקלדת (ת״י 5568 / WCAG 2.0 AA)
+   ============================================================ */
+/* דלג לתוכן הראשי — נסתר עד שמקבל focus במקלדת (Tab) */
+.skip-link{position:fixed;top:-120px;left:50%;transform:translateX(-50%);z-index:200;
+  background:var(--blue-deep);color:#fff;padding:.8em 1.5em;border-radius:0 0 14px 14px;
+  font-family:var(--font-ui);font-weight:600;font-size:1rem;text-decoration:none;
+  box-shadow:0 10px 30px rgba(18,58,102,.45);transition:top .22s var(--ease)}
+.skip-link:focus{top:0}
+
+/* סימון focus אחיד וברור לניווט מקלדת (2.4.7). לא מוצג בעכבר (:focus-visible) */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
+  outline:3px solid var(--blue-deep);outline-offset:3px;border-radius:4px}
+/* על אזורים כהים (הידר/הירו/סקשן נייבי/פוטר) — קו זהוב בהיר לניגודיות */
+.site-header a:focus-visible,.site-header button:focus-visible,
+.hero a:focus-visible,.hero button:focus-visible,
+.section--blue a:focus-visible,.section--blue button:focus-visible,
+.section--blue input:focus-visible,.section--blue select:focus-visible,.section--blue textarea:focus-visible,
+.site-footer a:focus-visible,.site-footer button:focus-visible,
+.a11y-fab:focus-visible,.wa-float:focus-visible{outline-color:var(--gold-lite)}
+/* במצב ניגודיות גבוהה — קו focus שחור עבה */
+html.a11y-contrast a:focus-visible,html.a11y-contrast button:focus-visible,
+html.a11y-contrast input:focus-visible,html.a11y-contrast select:focus-visible,
+html.a11y-contrast textarea:focus-visible,html.a11y-contrast [tabindex]:focus-visible{
+  outline:3px solid #000;outline-offset:3px}
 
 /* ============================================================
    Responsive
