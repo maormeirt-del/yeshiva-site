@@ -222,7 +222,13 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase JS pinned to exact static file for Subresource Integrity (SRI).
+     Version: 2.45.4. integrity = sha384 of the exact file the browser loads,
+     computed via: curl <URL> | openssl dgst -sha384 -binary | openssl base64 -A -->
+<script
+  src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+  integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o"
+  crossorigin="anonymous"></script>
 <script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/cms-schema.js"></script>
 <script src="assets/js/admin.js"></script>

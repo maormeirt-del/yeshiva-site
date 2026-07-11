@@ -6,11 +6,31 @@
 (function () {
   'use strict';
 
+  // מסנן HTML למצב 'html': מתיר רק תגי-עיצוב מוטבעים, מסלק סקריפטים/מטפלי-אירועים (onerror וכו')
+  // ותכונות זרות. חוסם stored-XSS גם אם נכתב תוכן זדוני ל-site_content.
+  function sanitizeInline(html) {
+    var ALLOWED = { B: 1, STRONG: 1, EM: 1, I: 1, U: 1, SPAN: 1, SMALL: 1, BR: 1 };
+    var tpl = document.createElement('template');
+    tpl.innerHTML = String(val == null ? '' : val);
+    (function walk(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 1) {
+          if (!ALLOWED[n.tagName]) { n.replaceWith(document.createTextNode(n.textContent)); return; }
+          Array.prototype.slice.call(n.attributes).forEach(function (a) {
+            if (a.name.toLowerCase() !== 'class') n.removeAttribute(a.name);
+          });
+          walk(n);
+        }
+      });
+    })(tpl.content);
+    return tpl.innerHTML;
+  }
+
   function setText(sel, val, mode) {
     if (!sel) return;
     var el = document.querySelector(sel);
     if (!el) return;
-    if (mode === 'html') { el.innerHTML = val; return; }
+    if (mode === 'html') { el.innerHTML = sanitizeInline(val); return; }
     if (mode === 'counter') {
       var num = String(val).replace(/[^0-9]/g, '');
       var suffix = String(val).replace(/[0-9,\s]/g, '');
