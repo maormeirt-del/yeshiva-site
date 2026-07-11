@@ -11,7 +11,7 @@
   function sanitizeInline(html) {
     var ALLOWED = { B: 1, STRONG: 1, EM: 1, I: 1, U: 1, SPAN: 1, SMALL: 1, BR: 1 };
     var tpl = document.createElement('template');
-    tpl.innerHTML = String(val == null ? '' : val);
+    tpl.innerHTML = String(html == null ? '' : html);
     (function walk(node) {
       Array.prototype.slice.call(node.childNodes).forEach(function (n) {
         if (n.nodeType === 1) {
