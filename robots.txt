@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /design-options
+
+Sitemap: https://yeshiva-site.vercel.app/sitemap.xml

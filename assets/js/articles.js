@@ -37,7 +37,7 @@
         '<h3>' + esc(a.title) + '</h3>' +
         (a.subtitle ? '<div class="sub">' + esc(a.subtitle) + '</div>' : '') +
         '<p>' + esc(a.excerpt || '') + '</p>' +
-        '<a class="read stretch" href="article.html?slug=' + encodeURIComponent(a.slug) + '">לקריאת המאמר <span class="arr">←</span></a>' +
+        '<a class="read stretch" href="/article/' + encodeURIComponent(a.slug) + '">לקריאת המאמר <span class="arr">←</span></a>' +
       '</div>';
     return el;
   }
@@ -55,7 +55,7 @@
         (a.subtitle ? '<div class="sub">' + esc(a.subtitle) + '</div>' : '') +
         '<p class="ex">' + esc(a.excerpt || '') + '</p>' +
         '<div class="meta"><span>' + fmt(a.date) + '</span>' + (a.read_min ? '<span>' + a.read_min + ' דק׳ קריאה</span>' : '') + '</div>' +
-        '<a class="read stretch" href="article.html?slug=' + encodeURIComponent(a.slug) + '">לקריאת המאמר <span class="arr">←</span></a>' +
+        '<a class="read stretch" href="/article/' + encodeURIComponent(a.slug) + '">לקריאת המאמר <span class="arr">←</span></a>' +
       '</div>';
     return el;
   }
@@ -70,7 +70,7 @@
         '<h4>' + esc(a.title) + '</h4>' +
         '<div class="meta">' + fmt(a.date) + (a.read_min ? ' · ' + a.read_min + ' דק׳' : '') + '</div>' +
       '</div>' +
-      '<a class="stretch" href="article.html?slug=' + encodeURIComponent(a.slug) + '" aria-label="' + esc(a.title) + '"></a>';
+      '<a class="stretch" href="/article/' + encodeURIComponent(a.slug) + '" aria-label="' + esc(a.title) + '"></a>';
     return el;
   }
   function renderFeatured(el, items) {
@@ -201,6 +201,7 @@
       }
       if (single) {
         var slug = new URLSearchParams(location.search).get('slug') || '';
+        if (!slug) { var pm = location.pathname.match(/\/article\/([^\/?#]+)/); if (pm) slug = decodeURIComponent(pm[1]); }
         sb.from('articles')
           .select('slug,title,subtitle,parasha,author,date,read_min,body,video_id')
           .eq('published', true)
