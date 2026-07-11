@@ -5,7 +5,7 @@
    פלט: article/<slug>.html  +  sitemap.xml
    הרצה:  node scripts/prerender.mjs
    ============================================================ */
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -178,17 +178,22 @@ ${urls.map((u) => `  <url>
 
 async function main() {
   const tpl = readFileSync(join(ROOT, 'article.html'), 'utf8');
-  let articles = [];
+  let articles;
   try {
     articles = await fetchArticles();
     console.log(`נמשכו ${articles.length} מאמרים מ-Supabase.`);
   } catch (e) {
+    // כשל רשת/Supabase — לא נוגעים בכלום (עדיף אתר ישן על אתר מחוק)
     console.error('⚠ כשל במשיכה מ-Supabase:', e.message);
-    console.error('  מייצר sitemap עם העמודים הקבועים בלבד; עמודי המאמר לא עודכנו.');
+    console.error('  לא בוצע שינוי — הקבצים הקיימים נשמרו. נסה שוב מאוחר יותר.');
+    process.exit(1);
   }
 
   const dir = join(ROOT, 'article');
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  // ניקוי עמודי מאמר קודמים (מונע קבצים יתומים כשמחליפים slug או מוחקים מאמר).
+  // בטוח — מגיעים לכאן רק אחרי משיכה מוצלחת, ומיד כותבים מחדש את כל המאמרים.
+  for (const f of readdirSync(dir)) if (f.endsWith('.html')) rmSync(join(dir, f));
 
   const slugs = [];
   for (const a of articles) {
