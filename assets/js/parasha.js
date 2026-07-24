@@ -49,7 +49,9 @@
       '<div class="dt-ribbon"><span class="dt-tag">פרשת ' + esc(p.parasha || '') + '</span><span class="dt-kicker">דבר תורה לפרשה</span></div>' +
       '<h3 class="dt-title">' + esc(p.title) + '</h3>' +
       (p.verse ? '<div class="dt-verse">״' + esc(p.verse) + '״</div>' : '') +
-      (p.video_id ? '<div class="dt-vid"><iframe loading="lazy" src="https://www.youtube.com/embed/' + esc(p.video_id) + '" title="' + esc(p.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>' : '') +
+      (p.video_id ? (/^https?:\/\//.test(p.video_id)
+        ? '<a class="dt-fb-btn" href="' + esc(p.video_id) + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1Z"/></svg><span>צפו בסרטון בפייסבוק</span></a>'
+        : '<div class="dt-vid"><iframe loading="lazy" src="https://www.youtube.com/embed/' + esc(p.video_id) + '" title="' + esc(p.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>') : '') +
       '<div class="dt-body">' + blocksHtml(p.body) + '</div>' +
       '<div class="dt-byline">' +
         '<span class="dt-quill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 4S9 5 5 12c-1.5 2.5-2 6-2 6s3.5-.5 6-2c7-4 8-15 8-15Z"/><path d="M5 19c2-4 5-7 9-9"/></svg></span>' +
