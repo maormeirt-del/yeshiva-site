@@ -764,8 +764,10 @@ html.a11y-contrast textarea:focus-visible,html.a11y-contrast [tabindex]:focus-vi
   .footer-top{grid-template-columns:1fr 1fr}
   .member.lead-member .inner{flex-direction:column;text-align:center}
 }
-@media (max-width:680px){
-  body{font-size:1rem}
+/* פריסת התפריט: 9 פריטים לא נכנסים בשורה אחת בלפטופים (1024–1280),
+   נשברים לשתי שורות ונראים לא מסודרים. מ-1140px ומטה עוברים להמבורגר
+   נקי, בנפרד מהשבירה של הרשתות (680px) כדי לא לשבור פריסות דסקטופ/טאבלט. */
+@media (max-width:1140px){
   .nav-links,.nav-cta .btn-outline{display:none}
   .nav-toggle{display:flex}
   .nav-links.mobile-open{display:flex;position:absolute;inset-inline:0;top:74px;flex-direction:column;
@@ -773,6 +775,9 @@ html.a11y-contrast textarea:focus-visible,html.a11y-contrast [tabindex]:focus-vi
     border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 18px 40px rgba(4,12,24,.4);padding:1rem;gap:.3rem;align-items:stretch}
   .nav-links.mobile-open a{padding:.8em 1em;color:#DCE8F5}
   .nav-links.mobile-open a:hover,.nav-links.mobile-open a.active{color:#fff;background:rgba(255,255,255,.1)}
+}
+@media (max-width:680px){
+  body{font-size:1rem}
   .pillars,.day-grid,.tracks,.lesson-grid{grid-template-columns:1fr}
   .shorts-strip,.photo-grid{grid-template-columns:repeat(2,1fr)}
   .footer-top{grid-template-columns:1fr}
