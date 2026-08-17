@@ -1,0 +1,23 @@
+{
+  "name": "ישיבה תיכונית קריית אתא",
+  "short_name": "ישיבה קריית אתא",
+  "description": "תורה · ערכים · מצוינות — האתר הרשמי של הישיבה התיכונית קריית אתא",
+  "id": "/",
+  "start_url": "/?pwa=1",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "he",
+  "dir": "rtl",
+  "background_color": "#EAF2FB",
+  "theme_color": "#1A4E88",
+  "shortcuts": [
+    { "name": "שנה בישיבה", "short_name": "ארכיון", "url": "/archive", "description": "ציר הזמן של הישיבה, שבוע אחרי שבוע" },
+    { "name": "מה חדש", "short_name": "עדכונים", "url": "/updates", "description": "הסיכום השבועי האחרון" }
+  ],
+  "icons": [
+    { "src": "assets/img/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

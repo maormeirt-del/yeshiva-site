@@ -1,0 +1,85 @@
+/* ============================================================
+   PWA — safe-area, כפתור התקנה, באנר עדכון, מודל iOS, טאב-בר תחתון
+   ============================================================ */
+
+:root{
+  --pwa-tabbar-h: 64px;
+}
+
+/* לעולם לא לתת לתוכן להיחבא מתחת לפס-כתובת/בית של הנייד */
+.site-header{
+  padding-top: env(safe-area-inset-top, 0px);
+}
+body{
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- כפתור "התקינו את האפליקציה" ---------- */
+.pwa-install-btn{
+  display:inline-flex;align-items:center;gap:.4em;
+  padding:.62em 1.1em;min-height:46px;border-radius:999px;
+  border:1.6px solid rgba(255,255,255,.35);background:transparent;color:#fff;
+  font-family:var(--font-ui,inherit);font-weight:600;font-size:.92rem;cursor:pointer;
+  transition:border-color .2s,color .2s,transform .2s;
+}
+.pwa-install-btn:hover{border-color:var(--gold-lite,#FFB25E);color:var(--gold-lite,#FFB25E);transform:translateY(-2px)}
+.pwa-install-btn[hidden]{display:none}
+
+/* ---------- באנר "יש גרסה חדשה" ---------- */
+.pwa-update-banner{
+  display:none;align-items:center;justify-content:center;gap:1em;flex-wrap:wrap;
+  position:fixed;inset-inline:0;top:0;z-index:70;
+  background:var(--blue-deep,#123A66);color:#fff;
+  padding:.7em 1em;padding-top:calc(.7em + env(safe-area-inset-top,0px));
+  font-family:var(--font-ui,inherit);font-size:.92rem;text-align:center;
+  box-shadow:0 6px 20px rgba(4,12,24,.3);
+}
+.pwa-update-banner[hidden]{display:none}
+.pwa-update-banner.is-visible{display:flex}
+.pwa-update-banner button{
+  border:none;border-radius:999px;background:#fff;color:var(--blue-deep,#123A66);
+  font-weight:700;padding:.5em 1.2em;cursor:pointer;white-space:nowrap;
+}
+
+/* ---------- מודל הוראות התקנה ל-iOS ---------- */
+.pwa-ios-modal{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(9,24,44,.55);align-items:flex-end;justify-content:center;
+  padding:0 0 env(safe-area-inset-bottom,0px);
+}
+.pwa-ios-modal[hidden]{display:none}
+.pwa-ios-modal.is-visible{display:flex}
+.pwa-ios-modal .pwa-ios-card{
+  background:#fff;color:var(--ink,#17232F);width:100%;max-width:480px;
+  border-radius:20px 20px 0 0;padding:1.4rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -10px 40px rgba(4,12,24,.3);
+}
+.pwa-ios-card h3{margin:0 0 .5rem;font-family:var(--font-display,inherit);color:var(--blue-deep,#123A66)}
+.pwa-ios-card p{margin:0 0 1rem;line-height:1.6}
+.pwa-ios-card .pwa-ios-steps{margin:0 0 1rem;padding-inline-start:1.2em;line-height:1.9}
+.pwa-ios-card button{
+  width:100%;border:none;border-radius:999px;background:var(--blue-deep,#123A66);color:#fff;
+  font-weight:700;padding:.8em;cursor:pointer;
+}
+
+/* ---------- טאב-בר תחתון (נייד בלבד) ---------- */
+.pwa-tabbar{display:none}
+
+@media (max-width:680px){
+  .pwa-tabbar{
+    display:flex;position:fixed;inset-inline:0;bottom:0;z-index:60;
+    height:var(--pwa-tabbar-h);padding-bottom:env(safe-area-inset-bottom,0px);
+    background:rgba(11,29,53,.97);backdrop-filter:saturate(160%) blur(14px);
+    border-top:1px solid rgba(255,255,255,.1);box-shadow:0 -8px 24px rgba(4,12,24,.25);
+  }
+  .pwa-tabbar a{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15em;
+    color:#B9C9DC;font-size:.68rem;font-weight:600;text-decoration:none;
+  }
+  .pwa-tabbar a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .pwa-tabbar a.active{color:#fff}
+  .pwa-tabbar a.active svg{stroke:var(--gold-lite,#FFB25E)}
+
+  /* מרווח תחתון לתוכן ולפוטר כדי שהטאב-בר לא יכסה כלום */
+  body{padding-bottom: calc(var(--pwa-tabbar-h) + env(safe-area-inset-bottom,0px));}
+}

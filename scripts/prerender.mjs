@@ -21,6 +21,7 @@ const STATIC_PAGES = [
   { path: '/articles',      priority: '0.8', freq: 'weekly'  },
   { path: '/parasha',       priority: '0.7', freq: 'weekly'  },
   { path: '/updates',       priority: '0.7', freq: 'weekly'  },
+  { path: '/archive',       priority: '0.8', freq: 'weekly'  },
   { path: '/accessibility', priority: '0.3', freq: 'yearly'  },
   { path: '/terms',         priority: '0.3', freq: 'yearly'  },
   { path: '/privacy',       priority: '0.3', freq: 'yearly'  },
