@@ -132,7 +132,7 @@
       (a.video_id ?
         '<div class="container"><div class="article-video">' +
           '<div class="vid-frame"><iframe loading="lazy" src="https://www.youtube.com/embed/' + a.video_id + '" title="' + esc(a.title) + '" allowfullscreen></iframe></div>' +
-          '<p class="cap">המאמר מבוסס על שיחת ראש הישיבה — לצפייה בשיחה המלאה</p>' +
+          '<p class="cap">המאמר מבוסס על שיחת ראש הישיבה, לצפייה בשיחה המלאה</p>' +
         '</div></div>' : '');
     initProgress();
   }
